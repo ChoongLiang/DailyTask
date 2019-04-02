@@ -1,2 +1,2 @@
 # DailyTask
-A google plugin homepage that allows user to track &amp; categorize daily tasks.
+A chrome plugin that replace homepage/new tab that allows user to track &amp; categorize daily tasks.
