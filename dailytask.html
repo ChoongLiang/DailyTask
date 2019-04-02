@@ -1,25 +1,38 @@
 <!DOCTYPE html>
   <html>
     <head>
+      <title>New Tab</title>
+
       <!-- Custom CSS -->
       <link rel="stylesheet" type="text/css" href="./css/style.css">
-      <title>New Tab</title>
+
+      <!-- Custom Font -->
+      <link href="https://fonts.googleapis.com/css?family=Lato:100" rel="stylesheet" type="text/css">
     </head>
     <body>
-      <div class="full">
-        <img src="./images/bg.png">
-      </div>
-      <div class="urgent">
+      <!-- Urgent & Important text -->
+      <div class="urgent fadeIn" style="--sec: 2.5s;">
         <h1>Urgent</h1>
       </div>
-      <div class="notUrgent">
-        <h1>Not Urgent</h1>
+      <div class="notUrgent fadeIn" style="--sec: 2.5s;">
+        <h1>Not <br> Urgent</h1>
       </div>
-      <div class="important">
+      <div class="important fadeIn" style="--sec: 2.5s;">
         <h1>Important</h1>
       </div>
-      <div class="notImportant">
-        <h1>Not Important</h1>
+      <div class="notImportant fadeIn" style="--sec: 2.5s;">
+        <h1>Not <br>Important</h1>
       </div>
+
+      <!-- Horizontal Line -->
+      <hr class="horizontal expand">
+
+      <!-- Vertical Line -->
+      <hr class="vertical expandVertical">
+
+      <!-- Script 
+        =====================================-->
+      <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js" ></script>
+      <script src="/js/transition.js"></script>
     </body>
   </html>
