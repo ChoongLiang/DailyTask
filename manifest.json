@@ -10,13 +10,11 @@
       "128": "images/get_started128.png"
     },
     "chrome_url_overrides" : {
-    "newtab": "dailytask.html",
-    "scripts": ["js/transition.js"]
+    "newtab": "dailytask.html"
   	},
     "dailytask": {
       "page": "dailytask.html",
-      "scripts": ["js/transition.js"],
-      "persistent" : false,
+      "scripts": ["js/transition.js", "js/jquery.min.js"]
     },
     "manifest_version": 2
  }
