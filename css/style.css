@@ -117,6 +117,16 @@ ul li:hover{
   width: 52.5%;
   margin-bottom: 0;
   margin-right: 0;
+
+  font-size: 25px;
+/*
+  display: grid;
+  grid-gap: 1px;
+  grid-template-columns: 60px 60px 60px 60px 60px 60px ;*/
+}
+
+#box-1 > div {
+  border: 1px black solid;
 }
 
 /*
@@ -266,3 +276,29 @@ ul li:hover{
     from { opacity: 0; }
     to   { opacity: 1; }
 }
+
+ /* Drag & Drop functionality
+-------------------------------------------------- */
+
+/* Prevent the text contents of draggable elements from being selectable. */
+[draggable] {
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
+  /* Required to make elements draggable in old WebKit */
+  -khtml-user-drag: element;
+  -webkit-user-drag: element;
+}
+
+.list.over#box-1 {
+  background-color: white;
+}
+
+/* not working 
+.listedItem {
+  font-size: 30px;
+  margin-top: 3em;
+  margin-left: 3em;
+}
+*/
