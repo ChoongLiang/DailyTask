@@ -13,7 +13,7 @@
       <!-- Main 
         =============================-->
       <div class="main">
-        <!-- Urgent & Important text -->
+        <!-- Urgent & Important -->
         <div class="urgent fadeIn" style="--sec: 5s;">
           <h1>Urgent</h1>
         </div>
@@ -24,8 +24,14 @@
           <h1>Important</h1>
         </div>
         <div class="notImportant fadeIn" style="--sec: 5s;">
-          <h1>Not <br>Important</h1>
+          <h1>Not Important</h1>
         </div>
+
+        <!-- Boxes -->
+        <div id="box-1" name="urgentImportant"></div>
+        <div id="box-2" name="urgentNotImportant"></div>
+        <div id="box-3" name="notUrgentImportant"></div>
+        <div id="box-4" name="notUrgentNotImportant"></div>
 
         <!-- Horizontal Line -->
         <hr class="horizontal expand fadeIn" style="--sec: 3s">
@@ -60,6 +66,11 @@
       <!-- Script 
         =====================================-->
       <script src="/js/jquery.min.js" ></script>
+
+      <!-- For line animation -->
       <script src="/js/transition.js"></script>
+
+      <!-- For dragging functionality -->
+      <script src="/js/drag.js"></script>
     </body>
   </html>
