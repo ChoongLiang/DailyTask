@@ -4,12 +4,23 @@
   margin: 4px 4px;
 }
 
-body { 
+body{ 
   background-color: #ffffff;
   font-family: "Lato", sans-serif;
   font-size: 15px;
   font-style: normal;
   box-sizing: border-box;
+}
+
+button{
+  border: 3px solid black;
+  padding: .5em;
+  margin: auto;
+  font-size: 25px;
+}
+
+button:hover{
+  border-style: dotted;
 }
 
  /* Main & Sidebar
@@ -23,7 +34,7 @@ body {
   width: 75%;
   height: 825px;
   box-sizing: border-box;
-  background: #aaa;
+  background: ;
 }
 
 /*
@@ -49,10 +60,6 @@ body {
   margin-top: 1em;
   padding-left: .25em;
   color: black;
-}
-
-ul li:hover{
-  border-bottom: 1px black solid;
 }
 
 
@@ -110,23 +117,35 @@ ul li:hover{
 /*
  * box-1 : Urgent & Important;
  */
-#box-1 {
+#container-1 {
   float: left;
   background-color: red;
-  height: 412.5px;
-  width: 52.5%;
+  height: 365px;
+  width: 45%;
   margin-bottom: 0;
   margin-right: 0;
 
   font-size: 25px;
-/*
+
+  /* For grid */
+  margin-left: 4em;
+  margin-top: 2em;
   display: grid;
-  grid-gap: 1px;
-  grid-template-columns: 60px 60px 60px 60px 60px 60px ;*/
+  grid-gap: .5px;
+  grid-template-columns: repeat(5, 1fr) ;
 }
 
-#box-1 > div {
-  border: 1px black solid;
+/* for each box(div) within container-1 */ 
+#container-1 > div {
+  border: 1px solid black;
+}
+
+#container-1 > div:hover {
+  border: 3px solid black;
+}
+
+.boxes li{
+  list-style: none;
 }
 
 /*
@@ -291,9 +310,6 @@ ul li:hover{
   -webkit-user-drag: element;
 }
 
-.list.over#box-1 {
-  background-color: white;
-}
 
 /* not working 
 .listedItem {
