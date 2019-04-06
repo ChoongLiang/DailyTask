@@ -61,19 +61,30 @@
       <!-- Side bar 
       =============================-->
       <div class="sideBar fadeIn" style="--sec: 3s">
-        <h1>To-do Lists</h1>
+        <h1>To-do-list</h1>
+        <div id="todoContainer">
+          <div>
+            <form>
+              <input type="text" id="newTaskForm" placeholder="new task..." required>        
+            </form> 
+          </div>
+          <div>
+            <button type="submit" id="newTaskBtn"></button>
+          </div>
+          <div id="todoList">
+            <ul>
+              <li draggable="true" class="list">Meditate</li>
+              <li draggable="true" class="list">GYM</li>
+            </ul>
+          </div>
+          
+          <!-- Delete area -->
+          <div id="deleteArea">Drop here to delete</div>
+        </div>
 
-        <ul>
-          <li draggable="true" class="list"><button>Meditate</button></li>
-          <li draggable="true" class="list"><button>GYM</button></li>
-          <li>Flight</li>
-          <li>Meeting</li>
-          <li>Class</li>
-          <li>Project</li>
-          <li>Sleep at 11</li>
-          <li>Laundry</li>
-        </ul>
-        
+        <!-- Task completed -->
+        <div id="taskCompleted">Task completed<strong><span id="taskCount">15</span></strong></div>
+
       </div>
 
       <!-- Script 
@@ -85,5 +96,8 @@
 
       <!-- For dragging functionality -->
       <script src="/js/drag.js"></script>
+
+      <!-- For button functionality -->
+      <script src="/js/button.js"></script>
     </body>
   </html>

@@ -1,7 +1,7 @@
  /* Global
 -------------------------------------------------- */
 * {
-  margin: 4px 4px;
+  margin: 4px;
 }
 
 body{ 
@@ -43,16 +43,16 @@ button:hover{
 .sideBar {
   float: right;
   align-content: right;
-  box-sizing: border-box;
   width: 24%;
   margin-top: 5.5em;
   height: 745px;
-  background-color: #aaa;
+  background-color: ;
 }
 
 .sideBar ul {
   list-style-type: none;
   overflow: auto;
+  grid-area: "taskList";
 }
 
 .sideBar li {
@@ -62,6 +62,37 @@ button:hover{
   color: black;
 }
 
+#todoContainer {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  grid-template-rows: 1fr 13fr;
+  grid-template-areas: 
+  "taskForm taskBtn"
+  "taskList delete";
+}
+
+#todoForm {
+  grid-area: "taskForm";
+}
+
+#newTaskBtn {
+  grid-area: "taskBtn";
+}
+
+#deleteArea {
+  grid-area: "delete";
+  border: 1px solid black;
+  text-align: center;
+  padding-top: 50%;
+}
+
+#taskCompleted {
+  font-size: 35px;
+}
+
+#taskCount {
+  float: right;
+}
 
  /* Urgent and important text
 -------------------------------------------------- */
@@ -309,12 +340,3 @@ button:hover{
   -khtml-user-drag: element;
   -webkit-user-drag: element;
 }
-
-
-/* not working 
-.listedItem {
-  font-size: 30px;
-  margin-top: 3em;
-  margin-left: 3em;
-}
-*/

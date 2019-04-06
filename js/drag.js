@@ -71,36 +71,74 @@
 // Rework
 
 var item = null;
-const todoList = document.getElementsByClassName('list');
-console.log(todoList);
+var task = null;
 
-for(const i of todoList) {
-  i.addEventListener("dragstart",dragstart);
+// Regrab .list when new task is added
+$(document).ready(function() {
+    updateTaskList();
+    // $("#sortable").sortable();
+    // $( "#sortable" ).disableSelection();
+
+    // Hide 'trash bin' 
+  $( '#deleteArea' ).hide();
+});
+
+function updateTaskList() {
+  const todoList = document.getElementsByClassName( 'list' );
+  // console.log( todoList );
+
+    for( const i of todoList ) {
+      // console.log(i);
+      i.addEventListener( "dragstart", dragstart );
+    };
 }
 
 function dragstart(e){
   item = this;
-  console.log(item)
+  // console.log(item);
+
+  // Make 'trash bin' visible
+  $( '#deleteArea' ).show();
 }
 
-const boxes = document.getElementsByClassName('boxes');
-console.log(boxes[0]);
-
-const containers = document.getElementById('container-1');
-console.log(containers)
-
-for(const box of boxes) {
-  box.addEventListener("dragover", dragover);
-  box.addEventListener("dragenter", dragenter);
-  box.addEventListener("drop", drop);
+const boxes = document.getElementsByClassName( 'boxes' );
+for ( const box of boxes ) {
+  box.addEventListener( "dragover", dragover );
+  box.addEventListener( "dragenter", dragenter );
+  box.addEventListener( "drop", drop );
 }
 
-function dragover(e) {
+// An array of id to add drag event
+const idsToIterate = [ 'todoList', 'deleteArea' ];
+for ( i = 0; i < idsToIterate.length; i++){
+  const elem = document.getElementById( idsToIterate[i] );
+    elem.addEventListener( "dragover", dragover );
+    elem.addEventListener( "dragenter", dragenter );
+    elem.addEventListener( "drop", drop );
+}
+
+function dragover( e ) {
+  e.preventDefault();  
+}
+
+function dragenter( e ) {
   e.preventDefault();
 }
-function dragenter(e) {
-  e.preventDefault();
-}
+
 function drop() {
-  this.append(item);
+  // console.log(item);
+  // console.log(this);
+
+  if ( this.id === "todoList" ){
+    $( "#todoList ul" ).append( item );
+  } else if ( this.id === "deleteArea"){
+    // $( ".list" ).remove(); This is to remove all task list
+    item.remove();
+    console.log('Task Removed');
+  } else {
+    this.append( item );
+  }
+
+  // Hide 'trash bin' 
+  $( '#deleteArea' ).hide();
 }
