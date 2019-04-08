@@ -1,104 +1,65 @@
-// credits: https://www.html5rocks.com/en/tutorials/dnd/basics/
-
-// Drag element
-// var dragSrcEl = null;
-
-// function handleDragStart(e) {
-//   this.style.color = 'red';  // this / e.target is the source node.
-
-//   dragSrcEl = this;
-
-//   e.dataTransfer.effectAllowed = 'move';
-//   e.dataTransfer.setData('text/html', this.innerHTML);
-// }
-
-// function handleDragOver(e) {
-//   if (e.preventDefault) {
-//     e.preventDefault(); // Necessary. Allows us to drop.
-//   }
-
-//   e.dataTransfer.dropEffect = 'move';  // See the section on the DataTransfer object.
-
-//   return false;
-// }
-
-// function handleDragEnter(e) {
-//   // this / e.target is the current hover target.
-//   this.classList.add('over');
-//   console.log(this.classList);
-// }
-
-// function handleDragLeave(e) {
-//   this.classList.remove('over');  // this / e.target is previous target element.
-//   console.log(this.classList);
-// }
-
-// function handleDrop(e) {
-//   // this / e.target is current target element.
-
-//   if (e.stopPropagation) {
-//     e.stopPropagation(); // stops the browser from redirecting.
-//   }
-//   if (dragSrcEl != this) {
-//     // Set the source column's HTML to the HTML of the column we dropped on.
-//     dragSrcEl.innerHTML = this.innerHTML;
-//     this.innerHTML = e.dataTransfer.getData('text/html');
-//     //console.log('this: ', this.innerHTML.classList);
-//     //this.innerHTML.classList.add('listedItem');
-//   }
-
-//   return false;
-// }
-
-// function handleDragEnd(e) {
-//   // this/e.target is the source node.
-
-//   [].forEach.call(list, function (item) {
-//     item.classList.remove('over');
-//   });
-// }
-
-// var list = document.querySelectorAll('.list');
-// [].forEach.call(list, function(item) {
-//   item.addEventListener('dragstart', handleDragStart, false);
-//   item.addEventListener('dragenter', handleDragEnter, false);
-//   item.addEventListener('dragover', handleDragOver, false);
-//   item.addEventListener('dragleave', handleDragLeave, false);
-//   item.addEventListener('drop', handleDrop, false);
-//   item.addEventListener('dragend', handleDragEnd, false);
-// });
-
-// Rework
-
 var item = null;
 var task = null;
+var taskCount = 0;
 
 // Regrab .list when new task is added
 $(document).ready(function() {
-    updateTaskList();
-    // $("#sortable").sortable();
-    // $( "#sortable" ).disableSelection();
+  startTime();
+  updateTaskCount();
+  updateTaskList();
 
-    // Hide 'trash bin' 
-  $( '#deleteArea' ).hide();
+  $( '#deleteArea' ).hide(); // Hide 'trash bin' 
+  $( '#clearTaskBtn' ).hide(); // Hide clear all button
 });
+
+// Date & time
+function startTime() {
+  var today = new Date(),
+      weekday = new Array('Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'),
+      dayOfWeek = weekday[today.getDay()],
+      domEnder = function() { var a = today; if (/1/.test(parseInt((a + "").charAt(0)))) return "th"; a = parseInt((a + "").charAt(1)); return 1 == a ? "st" : 2 == a ? "nd" : 3 == a ? "rd" : "th" }(),
+      dayOfMonth = today + ( today.getDate() < 10) ? today.getDate() + domEnder : today.getDate() + domEnder,
+      months = new Array('Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'),
+      curMonth = months[today.getMonth()],
+      curYear = today.getFullYear(),
+      curHour = today.getHours() > 12 ? today.getHours() - 12 : (today.getHours() < 10 ? "0" + today.getHours() : today.getHours()),
+      curMinute = today.getMinutes() < 10 ? "0" + today.getMinutes() : today.getMinutes(),
+      curSeconds = today.getSeconds() < 10 ? "0" + today.getSeconds() : today.getSeconds(),
+      curMeridiem = today.getHours() > 12 ? "PM" : "AM";
+
+  document.getElementById('date').innerHTML = dayOfWeek + " " + curMonth + " " + dayOfMonth + ", " + curYear;
+
+  var h = today.getHours();
+  var m = today.getMinutes();
+  var s = today.getSeconds();
+  m = checkTime(m);
+  s = checkTime(s);
+  document.getElementById('time').innerHTML =
+  h + ":" + m + ":" + s;
+  var t = setTimeout(startTime, 500);
+}
+
+function checkTime(i) {
+  if (i < 10) {i = "0" + i};  // add zero in front of numbers < 10
+  return i;
+}
 
 function updateTaskList() {
   const todoList = document.getElementsByClassName( 'list' );
-  // console.log( todoList );
-
     for( const i of todoList ) {
-      // console.log(i);
-      i.addEventListener( "dragstart", dragstart );
+      i.addEventListener("dragstart", dragstart);
     };
+    deleteTask();
+}
+
+function updateTaskCount() {
+  $( '#taskCount' ).fadeIn(500);
+  document.getElementById('taskCount').innerHTML = taskCount;
 }
 
 function dragstart(e){
   item = this;
-  // console.log(item);
-
-  // Make 'trash bin' visible
-  $( '#deleteArea' ).show();
+  $( '#deleteArea' ).fadeIn(500); // Make 'trash bin' visible
 }
 
 const boxes = document.getElementsByClassName( 'boxes' );
@@ -126,13 +87,9 @@ function dragenter( e ) {
 }
 
 function drop() {
-  // console.log(item);
-  // console.log(this);
-
   if ( this.id === "todoList" ){
     $( "#todoList ul" ).append( item );
   } else if ( this.id === "deleteArea"){
-    // $( ".list" ).remove(); This is to remove all task list
     item.remove();
     console.log('Task Removed');
   } else {
@@ -140,5 +97,85 @@ function drop() {
   }
 
   // Hide 'trash bin' 
-  $( '#deleteArea' ).hide();
+  $( '#deleteArea' ).fadeOut(500);
 }
+
+// Triggered whenever a new task is added
+// User can delete a task in the main board by double clicking 
+function deleteTask() {
+  $( '.list' ).hover( function() {
+    $( this ).dblclick( function() {
+      $( this ).css( "text-decoration", "line-through" ).delay(200);
+      $( this ).fadeOut(500, function() {
+        $( this ).remove();
+        taskCount += 1;
+        updateTaskCount();
+      });
+    });
+  })
+}
+
+// "enter" key should check for new task form instead of refreshing the page
+$(document).on('keypress',function(e) {
+    if(e.which == 13) {
+        newTaskBtn();
+    }
+});
+
+// Also we have to disable form submit (auto refresh if enter is pressed)
+$(function() {
+    $("form").submit(function() { return false; });
+});
+
+// Then the button have to listen
+$("#newTaskBtn").click(function(){
+  newTaskBtn();
+})
+
+// Last step, grab form value and verify
+function newTaskBtn(){
+  task = $('#newTaskForm').val();
+
+  if(task === "" || task === "null") {
+    console.log("Empty field!");
+  }else{
+    // Append as list item
+    $("#todoList ul").append('<li draggable="true" class="list">' + task + '</li>');
+    console.log(task)
+    updateTaskList();
+    clearInput();
+  }
+}
+
+// Clear all button
+$( '#clearBtn' )
+  .mouseenter(function() {
+    $( '#clearTaskBtn' ).show()
+    $( '#clearTaskBtn' ).click(function() {
+      $( '#todoList ul li' ).each(function() { //This is to remove all task list
+        $( this ).remove();
+      }); 
+    })
+  })
+  .mouseleave(function() {
+    $( '#clearTaskBtn' ).fadeOut(500);
+  })
+
+// Clear input
+function clearInput() {
+$('input:text').focus(
+    function(){
+        $(this).val('');
+    });
+}
+
+// New method but not fully working
+// function dragNDrop() {
+//   $( ".list" ).draggable();
+//   $( "#container-1" ).droppable({
+//     drop: function( event, ui ) {
+//       console.log(this);
+//       $( this ).append($(ui.draggable).find('li'));
+//     }
+//   });
+// } 

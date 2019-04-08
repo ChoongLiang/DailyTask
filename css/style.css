@@ -4,23 +4,37 @@
   margin: 4px;
 }
 
-body{ 
-  background-color: #ffffff;
+body { 
+  background-color: ;
   font-family: "Lato", sans-serif;
   font-size: 15px;
   font-style: normal;
+  font-weight: 100;
   box-sizing: border-box;
 }
 
-button{
-  border: 3px solid black;
+button {
+  border: 1px solid black;
   padding: .5em;
-  margin: auto;
   font-size: 25px;
 }
 
-button:hover{
+button:hover {
   border-style: dotted;
+}
+
+input[type=text] {
+  width: 130px;
+  font-size: 17px;
+  box-sizing: border-box;
+  border: none;
+  border-bottom: 1px solid black;
+  -webkit-transition: width .4s ease-in-out;
+  transition: width .4s ease-in-out;
+}
+
+input[type=text]:focus {
+  width: 100%;
 }
 
  /* Main & Sidebar
@@ -44,7 +58,6 @@ button:hover{
   float: right;
   align-content: right;
   width: 24%;
-  margin-top: 5.5em;
   height: 745px;
   background-color: ;
 }
@@ -62,10 +75,74 @@ button:hover{
   color: black;
 }
 
+/*
+ * Side bar section 1 (top)
+ */
+#todoHeader {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1.2fr;
+  grid-template-areas:
+  "date completed"
+  "time taskCount";
+  justify-items: end;
+}
+
+#date {
+  grid-area: "date";
+  font-size: 25px;
+}
+
+#time {
+  grid-area: "time";
+  font-size: 50px;
+  margin-bottom: 0;
+}
+
+#taskCompleted {
+  font-size: 30px;
+  grid-area: "completed";
+}
+
+#taskCount {
+  font-size: 50px;
+  grid-area: "taskCount";
+}
+
+/*
+ * Side bar section 2 (center)
+ */
+#titleClearBtn {
+  display: grid;
+  grid-template-columns: 1.5fr 2fr;
+  grid-template-areas: 
+  "title clearBtn"
+}
+
+#to-do-list {
+  grid-area: "title";
+}
+
+#clearBtn {
+  grid-area: "clearBtn";
+}
+
+#clearBtn button {
+  border: 0;
+  font-size: 18px;
+  opacity: 60%;
+  margin: 0;
+  color: red;
+}
+
+/*
+ * Side bar section 3 (bottom)
+ */
+
 #todoContainer {
   display: grid;
   grid-template-columns: 2fr 1fr;
-  grid-template-rows: 1fr 13fr;
+  grid-template-rows: 1fr 12fr;
   grid-template-areas: 
   "taskForm taskBtn"
   "taskList delete";
@@ -81,17 +158,9 @@ button:hover{
 
 #deleteArea {
   grid-area: "delete";
-  border: 1px solid black;
   text-align: center;
-  padding-top: 50%;
-}
-
-#taskCompleted {
-  font-size: 35px;
-}
-
-#taskCount {
-  float: right;
+  padding-top: 5em;
+  font-size: 25px;
 }
 
  /* Urgent and important text
@@ -150,7 +219,7 @@ button:hover{
  */
 #container-1 {
   float: left;
-  background-color: red;
+  background-color: ;
   height: 365px;
   width: 45%;
   margin-bottom: 0;
@@ -168,11 +237,11 @@ button:hover{
 
 /* for each box(div) within container-1 */ 
 #container-1 > div {
-  border: 1px solid black;
+  border: 0px solid black;
 }
 
 #container-1 > div:hover {
-  border: 3px solid black;
+  border: 1px solid black;
 }
 
 .boxes li{
@@ -184,7 +253,7 @@ button:hover{
  */
 #box-2 {
   float: right;
-  background-color: orange;
+  background-color: ;
   height: 412.5px;
   width: 46%;
   margin-bottom: 0;
@@ -303,26 +372,8 @@ button:hover{
     to   { opacity: 1;}
 }
 
-/* Firefox < 16 */
-@-moz-keyframes fadein {
-    from { opacity: 0; }
-    to   { opacity: 1; }
-}
-
 /* Safari, Chrome and Opera > 12.1 */
 @-webkit-keyframes fadein {
-    from { opacity: 0; }
-    to   { opacity: 1; }
-}
-
-/* Internet Explorer */
-@-ms-keyframes fadein {
-    from { opacity: 0; }
-    to   { opacity: 1; }
-}
-
-/* Opera < 12.1 */
-@-o-keyframes fadein {
     from { opacity: 0; }
     to   { opacity: 1; }
 }
@@ -339,4 +390,13 @@ button:hover{
   /* Required to make elements draggable in old WebKit */
   -khtml-user-drag: element;
   -webkit-user-drag: element;
+}
+
+ /* Font - Input Form
+-------------------------------------------------- */
+
+#newTaskForm::-webkit-input-placeholder {
+  font-family: "Lato", sans-serif;
+  font-weight: 300;
+  font-style: italic;
 }
