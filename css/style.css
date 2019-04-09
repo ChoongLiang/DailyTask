@@ -4,8 +4,11 @@
   margin: 4px;
 }
 
+html {
+  height: 100vh;
+}
+
 body { 
-  background-color: ;
   font-family: "Lato", sans-serif;
   font-size: 15px;
   font-style: normal;
@@ -35,6 +38,14 @@ input[type=text] {
 
 input[type=text]:focus {
   width: 100%;
+}
+
+/* Disable focus glow */
+input:focus,
+select:focus,
+textarea:focus,
+button:focus {
+  outline: none;
 }
 
  /* Main & Sidebar
@@ -133,6 +144,7 @@ input[type=text]:focus {
   opacity: 60%;
   margin: 0;
   color: red;
+  font-style: italic;
 }
 
 /*
@@ -219,7 +231,7 @@ input[type=text]:focus {
  */
 #container-1 {
   float: left;
-  background-color: ;
+  background-color: red;
   height: 365px;
   width: 45%;
   margin-bottom: 0;
@@ -236,11 +248,11 @@ input[type=text]:focus {
 }
 
 /* for each box(div) within container-1 */ 
-#container-1 > div {
+#container-1> div {
   border: 0px solid black;
 }
 
-#container-1 > div:hover {
+#container-1> div:hover {
   border: 1px solid black;
 }
 
@@ -251,34 +263,53 @@ input[type=text]:focus {
 /*
  * box-2 : Urgent & Not Important;
  */
-#box-2 {
-  float: right;
-  background-color: ;
-  height: 412.5px;
+#container-2 {
+  float: left;
+  background-color: orange;
+  height: 365px;
   width: 46%;
   margin-bottom: 0;
+  margin-left: 0;
+  margin-top: 3.4em;
+
+  /* For grid */
+  display: grid;
+  grid-template-columns: repeat(5, 1fr) ;
 }
 
 /*
  * box-3 : Not Urgent & Important;
  */
-#box-3 {
+#container-3 {
   float: left;
   background-color: yellow;
-  height: 404px;
-  width: 52.5%;
+  height: 365px;
+  width: 45%;
   margin-top: 0;
+  margin-right: 0;
+  margin-left: 6.8em;
+
+  /* For grid */
+  display: grid;
+  grid-gap: .5px;
+  grid-template-columns: repeat(5, 1fr) ;
 }
 
 /*
  * box-4 : Not Urgent & Not Important;
  */
-#box-4 {
-  float: right;
+#container-4 {
+  float: left;
   background-color: green;
-  height: 404px;
+  height: 365px;
   width: 46%;
   margin-top: 0;
+  margin-left: 0;
+
+  /* For grid */
+  display: grid;
+  grid-gap: .5px;
+  grid-template-columns: repeat(5, 1fr) ;
 }
 
  /* Hr line properties

@@ -1,8 +1,6 @@
-var item = null;
-var task = null;
 var taskCount = 0;
 
-// Regrab .list when new task is added
+//Regrab .list when new task is added
 $(document).ready(function() {
   startTime();
   updateTaskCount();
@@ -44,75 +42,9 @@ function checkTime(i) {
   return i;
 }
 
-function updateTaskList() {
-  const todoList = document.getElementsByClassName( 'list' );
-    for( const i of todoList ) {
-      i.addEventListener("dragstart", dragstart);
-    };
-    deleteTask();
-}
-
 function updateTaskCount() {
   $( '#taskCount' ).fadeIn(500);
   document.getElementById('taskCount').innerHTML = taskCount;
-}
-
-function dragstart(e){
-  item = this;
-  $( '#deleteArea' ).fadeIn(500); // Make 'trash bin' visible
-}
-
-const boxes = document.getElementsByClassName( 'boxes' );
-for ( const box of boxes ) {
-  box.addEventListener( "dragover", dragover );
-  box.addEventListener( "dragenter", dragenter );
-  box.addEventListener( "drop", drop );
-}
-
-// An array of id to add drag event
-const idsToIterate = [ 'todoList', 'deleteArea' ];
-for ( i = 0; i < idsToIterate.length; i++){
-  const elem = document.getElementById( idsToIterate[i] );
-    elem.addEventListener( "dragover", dragover );
-    elem.addEventListener( "dragenter", dragenter );
-    elem.addEventListener( "drop", drop );
-}
-
-function dragover( e ) {
-  e.preventDefault();  
-}
-
-function dragenter( e ) {
-  e.preventDefault();
-}
-
-function drop() {
-  if ( this.id === "todoList" ){
-    $( "#todoList ul" ).append( item );
-  } else if ( this.id === "deleteArea"){
-    item.remove();
-    console.log('Task Removed');
-  } else {
-    this.append( item );
-  }
-
-  // Hide 'trash bin' 
-  $( '#deleteArea' ).fadeOut(500);
-}
-
-// Triggered whenever a new task is added
-// User can delete a task in the main board by double clicking 
-function deleteTask() {
-  $( '.list' ).hover( function() {
-    $( this ).dblclick( function() {
-      $( this ).css( "text-decoration", "line-through" ).delay(200);
-      $( this ).fadeOut(500, function() {
-        $( this ).remove();
-        taskCount += 1;
-        updateTaskCount();
-      });
-    });
-  })
 }
 
 // "enter" key should check for new task form instead of refreshing the page
@@ -121,16 +53,6 @@ $(document).on('keypress',function(e) {
         newTaskBtn();
     }
 });
-
-// Also we have to disable form submit (auto refresh if enter is pressed)
-$(function() {
-    $("form").submit(function() { return false; });
-});
-
-// Then the button have to listen
-$("#newTaskBtn").click(function(){
-  newTaskBtn();
-})
 
 // Last step, grab form value and verify
 function newTaskBtn(){
@@ -141,37 +63,184 @@ function newTaskBtn(){
   }else{
     // Append as list item
     $("#todoList ul").append('<li draggable="true" class="list">' + task + '</li>');
-    console.log(task)
+    // console.log(task)
     updateTaskList();
-    clearInput();
   }
 }
 
-// Clear all button
-$( '#clearBtn' )
-  .mouseenter(function() {
-    $( '#clearTaskBtn' ).show()
-    $( '#clearTaskBtn' ).click(function() {
-      $( '#todoList ul li' ).each(function() { //This is to remove all task list
-        $( this ).remove();
-      }); 
-    })
+function updateTaskList() {
+  $('.list').draggable({
+    helper:"clone",
+    containment:"document"
   })
-  .mouseleave(function() {
-    $( '#clearTaskBtn' ).fadeOut(500);
-  })
+}
 
-// Clear input
-function clearInput() {
-$('input:text').focus(
+
+$(function() {
+
+  $( ".list" ).bind('dragstart', function (event) {  // Drag start to show delete area
+    $( '#deleteArea' ).fadeIn(500);
+  }).bind('dragstop', function (event) { // Drag stop to hide delete area
+    $( '#deleteArea' ).fadeOut(500);
+  }).hover( function() {                // Double click to delete
+    $( this ).dblclick( function() {
+      $( this ).css( "text-decoration", "line-through" ).delay(200);
+      $( this ).fadeOut(500, function() {
+        $( this ).remove();
+        taskCount += 1;
+        updateTaskCount();
+      });
+    });
+  });
+
+  // Disable form submit (auto refresh if enter is pressed)
+  $( "form" ).submit(function() { return false; });
+
+  // Then the button have to listen
+  $( "#newTaskBtn" ).click(function(){ newTaskBtn(); });
+
+  // Clear all button
+  $( '#clearBtn' ).mouseenter(function() {
+      $( '#clearTaskBtn' ).show()
+      $( '#clearTaskBtn' ).click(function() {
+        $( '#todoList li' ).each(function() { //This is to remove all task list
+          $( this ).remove();
+        }); 
+      })
+    }).mouseleave(function() { $( '#clearTaskBtn' ).fadeOut(200); });
+
+  // Auto clear input form
+  $('input:text').focus(
     function(){
         $(this).val('');
     });
-}
 
-// New method but not fully working
+  $( "#container-1, #container-2, #container-3, #container-4" ).droppable({
+    drop: function( event, ui ) {
+      ui.draggable.detach().appendTo($( this ));
+    }
+  });
+
+  $( "#todoList-ul" ).droppable({
+    drop: function( event, ui ) {
+      // var targetElem = $(this).attr("id");
+      // $( ui.draggable ).appendTo( this );
+      ui.draggable.detach().appendTo($( this ));
+    }
+  }).sortable();
+
+  $( "#deleteArea" ).droppable({
+    drop: function( event, ui ) {
+      ui.draggable.remove();
+      $( this ).fadeOut(500);
+    }
+  });
+
+})
+
+
+// function dragstart(e){
+//   item = this;
+//   $( '#deleteArea' ).fadeIn(500); // Make 'trash bin' visible
+// }
+
+// const boxes = document.getElementsByClassName( 'boxes' );
+// for ( const box of boxes ) {
+//   box.addEventListener( "dragover", dragover );
+//   box.addEventListener( "dragenter", dragenter );
+//   box.addEventListener( "drop", drop );
+// }
+
+// // An array of id to add drag event
+// const idsToIterate = [ 'todoList', 'deleteArea' ];
+// for ( i = 0; i < idsToIterate.length; i++){
+//   const elem = document.getElementById( idsToIterate[i] );
+//     elem.addEventListener( "dragover", dragover );
+//     elem.addEventListener( "dragenter", dragenter );
+//     elem.addEventListener( "drop", drop );
+// }
+
+// function dragover( e ) {
+//   e.preventDefault();  
+// }
+
+// function dragenter( e ) {
+//   e.preventDefault();
+// }
+
+// function drop() {
+//   if ( this.id === "todoList" ){
+//     $( "#todoList ul" ).append( item );
+//   } else if ( this.id === "deleteArea"){
+//     item.remove();
+//     console.log('Task Removed');
+//   } else {
+//     this.append( item );
+//   }
+
+//   // Hide 'trash bin' 
+//   $( '#deleteArea' ).fadeOut(500);
+// }
+
+// Triggered whenever a new task is added
+// User can delete a task in the main board by double clicking 
+
+
+
+
+// Clear input
+// function clearInput() {
+// $('input:text').focus(
+//     function(){
+//         $(this).val('');
+//     });
+// }
+
+// $('.list').draggable({
+//   helper:"clone",
+//   containment:"document"
+// });
+
+// $( "#container-1, #container-2, #container-3, #container-4" ).droppable({
+//   drop: function( event, ui ) {
+//     ui.draggable.detach().appendTo($( this ));
+//   }
+// });
+
+// $( "#todoList" ).droppable({
+//   activeClass: "ui-state-hover",
+//   hoverClass: "ui-state-active",
+//   accept: ":not(.ui-sortable-helper)",
+//   drop: function( event, ui ) {
+//     var targetElem = $(this).attr("id");
+//     $( ui.draggable ).appendTo( this );
+//   }
+// })
+
+// $( "#todoList-ul").sortable();
+
+// $( "#deleteArea" ).droppable({
+//   drop: function( event, ui ) {
+//     ui.draggable.remove();
+//     $( this ).fadeOut(500);
+//   }
+// });
+
+// $( "#todoList" ).sortable({
+//   connectWith: ".connectedSortable",
+//   receive: function( event, ui ) {
+//       $(ui.item).appendTo(this);
+//   }
+// }).disableSelection();
+
+//New method but not fully working
 // function dragNDrop() {
 //   $( ".list" ).draggable();
+//   $( ".container" ).droppable({
+//     drop: function( event, ui ) {
+//       ui.draggable.detach().appendTo($(this));
+//     }
+//   });
 //   $( "#container-1" ).droppable({
 //     drop: function( event, ui ) {
 //       console.log(this);
