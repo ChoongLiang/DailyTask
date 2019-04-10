@@ -231,7 +231,7 @@ button:focus {
  */
 #container-1 {
   float: left;
-  background-color: red;
+  background-color: ;
   height: 365px;
   width: 45%;
   margin-bottom: 0;
@@ -240,7 +240,7 @@ button:focus {
   font-size: 25px;
 
   /* For grid */
-  margin-left: 4em;
+  margin-left: 4.1em;
   margin-top: 2em;
   display: grid;
   grid-gap: .5px;
@@ -265,7 +265,7 @@ button:focus {
  */
 #container-2 {
   float: left;
-  background-color: orange;
+  background-color: ;
   height: 365px;
   width: 46%;
   margin-bottom: 0;
@@ -274,6 +274,7 @@ button:focus {
 
   /* For grid */
   display: grid;
+  grid-gap: .5em;
   grid-template-columns: repeat(5, 1fr) ;
 }
 
@@ -282,7 +283,7 @@ button:focus {
  */
 #container-3 {
   float: left;
-  background-color: yellow;
+  background-color: ;
   height: 365px;
   width: 45%;
   margin-top: 0;
@@ -300,7 +301,7 @@ button:focus {
  */
 #container-4 {
   float: left;
-  background-color: green;
+  background-color: ;
   height: 365px;
   width: 46%;
   margin-top: 0;
