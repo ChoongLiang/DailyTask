@@ -5,9 +5,10 @@ $(document).ready(function() {
   startTime();
   updateTaskCount();
   updateTaskList();
+  UpdateTaskListFunctionality();
 
   $( '#deleteArea' ).hide(); // Hide 'trash bin' 
-  $( '#clearTaskBtn' ).hide(); // Hide clear all button
+  //$( '#clearTaskBtn' ).hide(); // Hide clear all button
 });
 
 // Date & time
@@ -62,9 +63,10 @@ function newTaskBtn(){
     console.log("Empty field!");
   }else{
     // Append as list item
-    $("#todoList ul").append('<li draggable="true" class="list">' + task + '</li>');
+    $( "#todoList-ul" ).append('<div class="list"><li draggable="true">' + task + '</li></div>');
     // console.log(task)
     updateTaskList();
+    UpdateTaskListFunctionality();
   }
 }
 
@@ -75,10 +77,8 @@ function updateTaskList() {
   })
 }
 
-
-$(function() {
-
-  $( ".list" ).bind('dragstart', function (event) {  // Drag start to show delete area
+function UpdateTaskListFunctionality() {
+    $( ".list" ).bind('dragstart', function (event) {  // Drag start to show delete area
     $( '#deleteArea' ).fadeIn(500);
   }).bind('dragstop', function (event) { // Drag stop to hide delete area
     $( '#deleteArea' ).fadeOut(500);
@@ -92,6 +92,25 @@ $(function() {
       });
     });
   });
+}
+
+
+$(function() {
+
+  // $( ".list" ).bind('dragstart', function (event) {  // Drag start to show delete area
+  //   $( '#deleteArea' ).fadeIn(500);
+  // }).bind('dragstop', function (event) { // Drag stop to hide delete area
+  //   $( '#deleteArea' ).fadeOut(500);
+  // }).hover( function() {                // Double click to delete
+  //   $( this ).dblclick( function() {
+  //     $( this ).css( "text-decoration", "line-through" ).delay(200);
+  //     $( this ).fadeOut(500, function() {
+  //       $( this ).remove();
+  //       taskCount += 1;
+  //       updateTaskCount();
+  //     });
+  //   });
+  // });
 
   // Disable form submit (auto refresh if enter is pressed)
   $( "form" ).submit(function() { return false; });
@@ -107,7 +126,7 @@ $(function() {
           $( this ).remove();
         }); 
       })
-    }).mouseleave(function() { $( '#clearTaskBtn' ).fadeOut(200); });
+    });
 
   // Auto clear input form
   $('input:text').focus(
@@ -121,11 +140,12 @@ $(function() {
     }
   });
 
-  $( "#todoList-ul" ).droppable({
+  $( "#todoList" ).droppable({
     drop: function( event, ui ) {
       // var targetElem = $(this).attr("id");
       // $( ui.draggable ).appendTo( this );
-      ui.draggable.detach().appendTo($( this ));
+      $( ui.draggable ).detach().appendTo($( "#todoList-ul" ));
+      // console.log(this);
     }
   }).sortable();
 
