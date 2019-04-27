@@ -1,7 +1,7 @@
 {
     "name": "Daily Task",
     "version": "1.0",
-    "description": "Build an Extension!",
+    "description": "Seek to improve user time management. Idea credits to '7 Habits for Highly Effective People'",
     "permissions": ["activeTab", "declarativeContent", "storage"],
     "icons": {
       "16": "images/get_started16.png",

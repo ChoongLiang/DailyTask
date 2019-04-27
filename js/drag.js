@@ -6,6 +6,8 @@ $(document).ready(function() {
   updateTaskCount();
   updateTaskList();
   UpdateTaskListFunctionality();
+  var storage_count = storage_count_init();
+  storage_init(storage_count);
 
   $( '#deleteArea' ).hide(); // Hide 'trash bin' 
   //$( '#clearTaskBtn' ).hide(); // Hide clear all button
@@ -67,6 +69,7 @@ function newTaskBtn(){
     // console.log(task)
     updateTaskList();
     UpdateTaskListFunctionality();
+    window.saveChanges(task);
   }
 }
 
@@ -125,6 +128,9 @@ $(function() {
         $( '#todoList li' ).each(function() { //This is to remove all task list
           $( this ).remove();
         }); 
+      chrome.storage.local.clear(function() {
+        console.log("Cleared chrome storage");
+      })
       })
     });
 
@@ -158,6 +164,40 @@ $(function() {
 
 })
 
+function storage_init(storage_count) {
+  var task_list =[];
+  var task8 = 'task8';
+
+  // for(let i = 1; i <= storage_count; i++ ){
+  //   task = 'task' + i;
+  //   task_list[i] = task;
+  // } 
+  // console.log(task_list);
+
+  chrome.storage.local.get(null, function(items) {
+    var task_keys = Object.keys(items);
+    console.log('ALL KEYS', task_keys);
+    console.log(items.item_text);
+  })   
+}
+
+function storage_count_init() {
+  var task_count_init = 0;
+  chrome.storage.local.get('task_counter', function(count) {
+    task_count = count.task_counter;
+    console.log(task_count, "tasks grabbed");
+  });
+  return task_count_init;
+}
+
+function storage_worker(task_list) {
+
+  var task_item = '';
+
+
+  console.log('task-grabbed:', task_item);
+  return task_item;
+}
 
 // function dragstart(e){
 //   item = this;
