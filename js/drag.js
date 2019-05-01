@@ -3,11 +3,9 @@ var taskCount = 0;
 //Regrab .list when new task is added
 $(document).ready(function() {
   startTime();
-  updateTaskCount();
   updateTaskList();
   UpdateTaskListFunctionality();
-  var storage_count = storage_count_init();
-  storage_init(storage_count);
+  storage_init();
 
   $( '#deleteArea' ).hide(); // Hide 'trash bin' 
   //$( '#clearTaskBtn' ).hide(); // Hide clear all button
@@ -47,7 +45,9 @@ function checkTime(i) {
 
 function updateTaskCount() {
   $( '#taskCount' ).fadeIn(500);
+  window.save_task_count(taskCount);
   document.getElementById('taskCount').innerHTML = taskCount;
+
 }
 
 // "enter" key should check for new task form instead of refreshing the page
@@ -81,16 +81,26 @@ function updateTaskList() {
 }
 
 function UpdateTaskListFunctionality() {
-    $( ".list" ).bind('dragstart', function (event) {  // Drag start to show delete area
+  $( ".list" ).bind('dragstart', function (event) {  // Drag start to show delete area
     $( '#deleteArea' ).fadeIn(500);
   }).bind('dragstop', function (event) { // Drag stop to hide delete area
     $( '#deleteArea' ).fadeOut(500);
   }).hover( function() {                // Double click to delete
-    $( this ).dblclick( function() {
+    $( this ).dblclick( function(task) {
       $( this ).css( "text-decoration", "line-through" ).delay(200);
       $( this ).fadeOut(500, function() {
+        chrome.storage.local.get({"task_id": []}, function(items) {
+          var temp_list = [];
+          for (var i = 0; i < items.task_id.length; i++) {
+            if ( task.currentTarget.innerText !== items.task_id[i] ) {
+              temp_list.push(items.task_id[i]);
+            }
+          }
+          chrome.storage.local.set({"task_id": temp_list});
+          console.log('deleted task');
+        })
         $( this ).remove();
-        taskCount += 1;
+        taskCount++;
         updateTaskCount();
       });
     });
@@ -128,8 +138,10 @@ $(function() {
         $( '#todoList li' ).each(function() { //This is to remove all task list
           $( this ).remove();
         }); 
-      chrome.storage.local.clear(function() {
+      chrome.storage.local.get({"task_id": []}, function(items) {
+        items.task_id = [];
         console.log("Cleared chrome storage");
+        chrome.storage.local.set(items);
       })
       })
     });
@@ -158,6 +170,17 @@ $(function() {
   $( "#deleteArea" ).droppable({
     drop: function( event, ui ) {
       ui.draggable.remove();
+      var task_text = ui.draggable[0].innerText;
+      chrome.storage.local.get({"task_id": []}, function(items) {
+          var temp_list = [];
+          for (var i = 0; i < items.task_id.length; i++) {
+            if ( task_text !== items.task_id[i] ) {
+              temp_list.push(items.task_id[i]);
+            }
+          }
+          chrome.storage.local.set({"task_id": temp_list});
+          console.log('deleted task');
+        })
       $( this ).fadeOut(500);
     }
   });
@@ -165,39 +188,25 @@ $(function() {
 })
 
 function storage_init(storage_count) {
-  var task_list =[];
-  var task8 = 'task8';
-
-  // for(let i = 1; i <= storage_count; i++ ){
-  //   task = 'task' + i;
-  //   task_list[i] = task;
-  // } 
-  // console.log(task_list);
-
   chrome.storage.local.get(null, function(items) {
     var task_keys = Object.keys(items);
     console.log('ALL KEYS', task_keys);
-    console.log(items.item_text);
-  })   
+    // console.log(items["task_id"]);
+
+    var saved_task_list = items["task_id"];
+
+    for (var i = 0; i < saved_task_list.length; i++) {
+      $( "#todoList-ul" ).append('<div class="list"><li draggable="true">' + saved_task_list[i] + '</li></div>');
+      updateTaskList();
+      UpdateTaskListFunctionality();
+    }
+
+    var saved_task_count = items["task_count"];
+    document.getElementById('taskCount').innerHTML = saved_task_count;
+    taskCount = saved_task_count;
+  })
 }
 
-function storage_count_init() {
-  var task_count_init = 0;
-  chrome.storage.local.get('task_counter', function(count) {
-    task_count = count.task_counter;
-    console.log(task_count, "tasks grabbed");
-  });
-  return task_count_init;
-}
-
-function storage_worker(task_list) {
-
-  var task_item = '';
-
-
-  console.log('task-grabbed:', task_item);
-  return task_item;
-}
 
 // function dragstart(e){
 //   item = this;
