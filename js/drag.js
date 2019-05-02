@@ -2,10 +2,11 @@ var taskCount = 0;
 
 //Regrab .list when new task is added
 $(document).ready(function() {
+  new_storage_init();
   startTime();
   updateTaskList();
   UpdateTaskListFunctionality();
-  storage_init();
+  //storage_init();
 
   $( '#deleteArea' ).hide(); // Hide 'trash bin' 
   //$( '#clearTaskBtn' ).hide(); // Hide clear all button
@@ -89,15 +90,11 @@ function UpdateTaskListFunctionality() {
     $( this ).dblclick( function(task) {
       $( this ).css( "text-decoration", "line-through" ).delay(200);
       $( this ).fadeOut(500, function() {
-        chrome.storage.local.get({"task_id": []}, function(items) {
-          var temp_list = [];
-          for (var i = 0; i < items.task_id.length; i++) {
-            if ( task.currentTarget.innerText !== items.task_id[i] ) {
-              temp_list.push(items.task_id[i]);
-            }
-          }
-          chrome.storage.local.set({"task_id": temp_list});
-          console.log('deleted task');
+        storage.get({[key]: []}, function(items) {
+          var new_task_list = items[key].filter(function(filtered) {
+            return filtered[0] !== task.currentTarget.innerText;
+          })
+          storage.set({[key]: new_task_list});
         })
         $( this ).remove();
         taskCount++;
@@ -109,21 +106,6 @@ function UpdateTaskListFunctionality() {
 
 
 $(function() {
-
-  // $( ".list" ).bind('dragstart', function (event) {  // Drag start to show delete area
-  //   $( '#deleteArea' ).fadeIn(500);
-  // }).bind('dragstop', function (event) { // Drag stop to hide delete area
-  //   $( '#deleteArea' ).fadeOut(500);
-  // }).hover( function() {                // Double click to delete
-  //   $( this ).dblclick( function() {
-  //     $( this ).css( "text-decoration", "line-through" ).delay(200);
-  //     $( this ).fadeOut(500, function() {
-  //       $( this ).remove();
-  //       taskCount += 1;
-  //       updateTaskCount();
-  //     });
-  //   });
-  // });
 
   // Disable form submit (auto refresh if enter is pressed)
   $( "form" ).submit(function() { return false; });
@@ -138,10 +120,11 @@ $(function() {
         $( '#todoList li' ).each(function() { //This is to remove all task list
           $( this ).remove();
         }); 
-      chrome.storage.local.get({"task_id": []}, function(items) {
-        items.task_id = [];
-        console.log("Cleared chrome storage");
-        chrome.storage.local.set(items);
+      storage.get({[key]: []}, function(items) {
+        var new_task_list = items[key].filter(function(filtered) {
+            return filtered[1] !== 0;
+        })
+        storage.set({[key]: new_task_list});
       })
       })
     });
@@ -152,168 +135,154 @@ $(function() {
         $(this).val('');
     });
 
-  $( "#container-1, #container-2, #container-3, #container-4" ).droppable({
+  // Droppables
+  $( "#container-1").droppable({
     drop: function( event, ui ) {
-      ui.draggable.detach().appendTo($( this ));
+      ui.draggable.detach().appendTo($(this));
+      window.save_tasks_in_boxes(1, ui.draggable[0].innerText);
     }
-  });
+  })
+  $( "#container-2").droppable({
+    drop: function( event, ui ) {
+      console.log(ui);
+      ui.draggable.detach().appendTo($(this));
+      window.save_tasks_in_boxes(2, ui.draggable[0].innerText);
+    }
+  })
+  $( "#container-3").droppable({
+    drop: function( event, ui ) {
+      ui.draggable.detach().appendTo($(this));
+      window.save_tasks_in_boxes(3, ui.draggable[0].innerText);
+    }
+  })
+  $( "#container-4").droppable({
+    drop: function( event, ui ) {
+      ui.draggable.detach().appendTo($(this));
+      window.save_tasks_in_boxes(4, ui.draggable[0].innerText);
+    }
+  })
 
   $( "#todoList" ).droppable({
     drop: function( event, ui ) {
-      // var targetElem = $(this).attr("id");
-      // $( ui.draggable ).appendTo( this );
       $( ui.draggable ).detach().appendTo($( "#todoList-ul" ));
-      // console.log(this);
+      window.save_tasks_in_boxes(0, ui.draggable[0].innerText);
     }
   }).sortable();
 
+  // Delete Area
   $( "#deleteArea" ).droppable({
     drop: function( event, ui ) {
       ui.draggable.remove();
+
       var task_text = ui.draggable[0].innerText;
-      chrome.storage.local.get({"task_id": []}, function(items) {
-          var temp_list = [];
-          for (var i = 0; i < items.task_id.length; i++) {
-            if ( task_text !== items.task_id[i] ) {
-              temp_list.push(items.task_id[i]);
-            }
-          }
-          chrome.storage.local.set({"task_id": temp_list});
-          console.log('deleted task');
+      storage.get({[key]: []}, function(items) {
+        var new_task_list = items[key].filter(function(filtered) {
+          return filtered[0] !== task_text;
         })
+        storage.set({[key]: new_task_list});
+      })
+
       $( this ).fadeOut(500);
     }
   });
 
 })
 
-function storage_init(storage_count) {
-  chrome.storage.local.get(null, function(items) {
-    var task_keys = Object.keys(items);
-    console.log('ALL KEYS', task_keys);
-    // console.log(items["task_id"]);
+// function storage_init() {
+//   storage.get(null, function(items) {
+//     var task_keys = Object.keys(items);
+//     console.log('ALL KEYS', task_keys);
 
-    var saved_task_list = items["task_id"];
+//     // Load task list (RHS)
+//     var saved_task_list = items["task_id"];
 
-    for (var i = 0; i < saved_task_list.length; i++) {
-      $( "#todoList-ul" ).append('<div class="list"><li draggable="true">' + saved_task_list[i] + '</li></div>');
-      updateTaskList();
-      UpdateTaskListFunctionality();
+//     if (saved_task_list != null) {
+//       for (var i = 0; i < saved_task_list.length; i++) {
+//         $( "#todoList-ul" ).append('<div class="list"><li draggable="true">' + saved_task_list[i] + '</li></div>');
+//         updateTaskList();
+//         UpdateTaskListFunctionality();
+//       }
+//     }
+
+//     // Load task count
+//     var saved_task_count = items["task_count"];
+//     if (saved_task_count == null) {
+//       saved_task_count = 0;
+//     }
+//     document.getElementById('taskCount').innerHTML = saved_task_count;
+//     taskCount = saved_task_count;
+
+//     // Load the ones in box
+//     var box_list = ['box-1', 'box-2', 'box-3', 'box-4'];
+//     for (var i = 0; i < box_list.length; i++) {
+//       var cur_box = box_list[i];
+//         console.log('cur_box', cur_box);
+//       var saved_box_task = items[cur_box];
+//         console.log('saved_box', saved_box_task);
+
+//       var cur_container = '#container-' + (i + 1);
+//       console.log('container',cur_container);
+//       if(saved_box_task != null) {
+//         for (var j = 0; j < saved_box_task.length; j++) {
+//           $(cur_container).append('<div class="list"><li draggable="true">' + saved_box_task[j] + '</li></div>');
+//           updateTaskList();
+//           UpdateTaskListFunctionality();
+//         }
+//       }  
+//     }   
+//   })
+// }
+
+function new_storage_init() {
+  storage.get({[key]: []}, function(items) {
+
+    // Load task list to their belonging
+    for (var i = 0; i < items[key].length; i++) {
+      switch(items[key][i][1]) {
+        case 0:
+          console.log('0');
+          $( "#todoList-ul" ).append('<div class="list"><li draggable="true">' + items[key][i][0] + '</li></div>');
+          updateTaskList();
+          UpdateTaskListFunctionality();
+          continue;
+        case 1:
+          console.log('1');
+          $( "#container-1" ).append('<div class="list"><li draggable="true">' + items[key][i][0] + '</li></div>');
+          updateTaskList();
+          UpdateTaskListFunctionality();
+          continue;
+        case 2:
+          console.log('2');
+          $( "#container-2" ).append('<div class="list"><li draggable="true">' + items[key][i][0] + '</li></div>');
+          updateTaskList();
+          UpdateTaskListFunctionality();
+          continue;
+        case 3:
+          console.log('3');
+          $( "#container-3" ).append('<div class="list"><li draggable="true">' + items[key][i][0] + '</li></div>');
+          updateTaskList();
+          UpdateTaskListFunctionality();
+          continue;
+        case 4:
+          console.log('4');
+          $( "#container-4" ).append('<div class="list"><li draggable="true">' + items[key][i][0] + '</li></div>');
+          updateTaskList();
+          UpdateTaskListFunctionality();
+          continue;
+        default:
+          console.log('default');
+      }
     }
+  }) 
 
-    var saved_task_count = items["task_count"];
-    document.getElementById('taskCount').innerHTML = saved_task_count;
-    taskCount = saved_task_count;
+  // Load task count
+  storage.get({[count_key]: []}, function(_count) {
+    if (_count[count_key].length === 0) {
+      _count[count_key] = taskCount;
+      storage.set(_count);
+    }
+    taskCount = _count[count_key];
+    document.getElementById('taskCount').innerHTML = taskCount;
   })
+
 }
-
-
-// function dragstart(e){
-//   item = this;
-//   $( '#deleteArea' ).fadeIn(500); // Make 'trash bin' visible
-// }
-
-// const boxes = document.getElementsByClassName( 'boxes' );
-// for ( const box of boxes ) {
-//   box.addEventListener( "dragover", dragover );
-//   box.addEventListener( "dragenter", dragenter );
-//   box.addEventListener( "drop", drop );
-// }
-
-// // An array of id to add drag event
-// const idsToIterate = [ 'todoList', 'deleteArea' ];
-// for ( i = 0; i < idsToIterate.length; i++){
-//   const elem = document.getElementById( idsToIterate[i] );
-//     elem.addEventListener( "dragover", dragover );
-//     elem.addEventListener( "dragenter", dragenter );
-//     elem.addEventListener( "drop", drop );
-// }
-
-// function dragover( e ) {
-//   e.preventDefault();  
-// }
-
-// function dragenter( e ) {
-//   e.preventDefault();
-// }
-
-// function drop() {
-//   if ( this.id === "todoList" ){
-//     $( "#todoList ul" ).append( item );
-//   } else if ( this.id === "deleteArea"){
-//     item.remove();
-//     console.log('Task Removed');
-//   } else {
-//     this.append( item );
-//   }
-
-//   // Hide 'trash bin' 
-//   $( '#deleteArea' ).fadeOut(500);
-// }
-
-// Triggered whenever a new task is added
-// User can delete a task in the main board by double clicking 
-
-
-
-
-// Clear input
-// function clearInput() {
-// $('input:text').focus(
-//     function(){
-//         $(this).val('');
-//     });
-// }
-
-// $('.list').draggable({
-//   helper:"clone",
-//   containment:"document"
-// });
-
-// $( "#container-1, #container-2, #container-3, #container-4" ).droppable({
-//   drop: function( event, ui ) {
-//     ui.draggable.detach().appendTo($( this ));
-//   }
-// });
-
-// $( "#todoList" ).droppable({
-//   activeClass: "ui-state-hover",
-//   hoverClass: "ui-state-active",
-//   accept: ":not(.ui-sortable-helper)",
-//   drop: function( event, ui ) {
-//     var targetElem = $(this).attr("id");
-//     $( ui.draggable ).appendTo( this );
-//   }
-// })
-
-// $( "#todoList-ul").sortable();
-
-// $( "#deleteArea" ).droppable({
-//   drop: function( event, ui ) {
-//     ui.draggable.remove();
-//     $( this ).fadeOut(500);
-//   }
-// });
-
-// $( "#todoList" ).sortable({
-//   connectWith: ".connectedSortable",
-//   receive: function( event, ui ) {
-//       $(ui.item).appendTo(this);
-//   }
-// }).disableSelection();
-
-//New method but not fully working
-// function dragNDrop() {
-//   $( ".list" ).draggable();
-//   $( ".container" ).droppable({
-//     drop: function( event, ui ) {
-//       ui.draggable.detach().appendTo($(this));
-//     }
-//   });
-//   $( "#container-1" ).droppable({
-//     drop: function( event, ui ) {
-//       console.log(this);
-//       $( this ).append($(ui.draggable).find('li'));
-//     }
-//   });
-// } 
