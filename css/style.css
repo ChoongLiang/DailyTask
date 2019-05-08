@@ -1,8 +1,8 @@
  /* Global
 -------------------------------------------------- */
-* {
+/** {
   margin: 4px;
-}
+}*/
 
 html {
   height: 100vh;
@@ -59,7 +59,7 @@ button:focus {
   width: 75%;
   height: 825px;
   box-sizing: border-box;
-  background: ;
+  background: #eee;
 }
 
 /*
@@ -106,31 +106,33 @@ button:focus {
   grid-template-columns: 1fr 1fr;
   grid-template-rows: 1fr 1.2fr;
   grid-template-areas:
-  "date completed"
-  "time taskCount";
+  "date taskCount"
+  "time completed";
   justify-items: end;
 }
 
 #date {
   grid-area: "date";
-  font-size: 22px;
-  padding-top: 1em;
+  font-size: 24px;
+  padding-top:.5em;
 }
 
 #time {
+  padding-top: .5em;
   grid-area: "time";
-  font-size: 50px;
+  font-size: 24px;
   margin-bottom: 0;
 }
 
 #taskCompleted {
-  font-size: 30px;
-  padding-top: .5em;
+  font-size: 25px;
+  padding-top: .1em;
   grid-area: "completed";
+  text-align: center;
 }
 
 #taskCount {
-  font-size: 50px;
+  font-size: 25px;
   grid-area: "taskCount";
 }
 
@@ -145,18 +147,19 @@ button:focus {
  */
 #titleClearBtn {
   display: grid;
-  grid-template-columns: 2fr 1fr;
+  grid-template-columns: 1fr 2fr;
   grid-template-areas: 
-  "title . clearBtn"
+  "title clearBtn"
 }
 
-#to-do-list {
+#to-do-list h1{
   grid-area: "title";
+  margin-top: 0;
 }
 
 #clearBtn {
   grid-area: "clearBtn";
-  padding-top: .5em;
+  padding-top: 2px;
 }
 
 #clearBtn button {
@@ -206,7 +209,7 @@ button:focus {
   font-size: 25px;
 }
 
- /* Urgent and important text
+ /* Urgent and important text & double click
 -------------------------------------------------- */
 
 /*
@@ -246,6 +249,15 @@ button:focus {
   text-align: center;
 }
 
+/*
+ * Double click text
+ */
+#dlbclk_txt {
+  position: absolute;
+  left:50%;
+  border: 3px solid black;
+}
+
  /* Boxes
 -------------------------------------------------- */
 
@@ -267,15 +279,17 @@ button:focus {
  */
 #container-1 {
   float: left;
-  background-color: ;
+  background-color: red;
   height: 365px;
   width: 45%;
   margin-bottom: 0;
   margin-right: 0;
 
   /* For grid */
-  margin-left: 6.8em;
-  margin-top: 3.4em;
+  margin-left: 7.3%;
+  margin-top: 2.8em;
+  padding-left: 1%; 
+  padding-top: 1em;
   display: grid;
   grid-gap: .3px;
   grid-template-columns: repeat(5, 1fr) ;
@@ -295,12 +309,13 @@ button:focus {
  */
 #container-2 {
   float: left;
-  background-color: ;
+  background-color: yellow;
   height: 365px;
   width: 46%;
   margin-bottom: 0;
   margin-left: 0;
-  margin-top: 3.4em;
+  margin-top: 2.8em;
+  padding-top: 1em;
 
   /* For grid */
   display: grid;
@@ -313,12 +328,13 @@ button:focus {
  */
 #container-3 {
   float: left;
-  background-color: ;
+  background-color: orange;
   height: 365px;
   width: 45%;
   margin-top: 0;
   margin-right: 0;
-  margin-left: 6.8em;
+  margin-left: 7.3%;
+  padding-left: 1%;
 
   /* For grid */
   display: grid;
@@ -331,7 +347,7 @@ button:focus {
  */
 #container-4 {
   float: left;
-  background-color: ;
+  background-color: green;
   height: 365px;
   width: 46%;
   margin-top: 0;
@@ -399,7 +415,7 @@ button:focus {
 }
 
 .grow{
-  width: 1100px;
+  width: 65%;
 }
 
 /*
@@ -461,4 +477,45 @@ button:focus {
   font-family: "Lato", sans-serif;
   font-weight: 300;
   font-style: italic;
+}
+
+ /* @media
+-------------------------------------------------- */
+
+@media (max-width: 1400px) {
+/*  #todoHeader {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 1.2fr 1fr 1.2fr;
+    grid-template-areas:
+    "date"
+    "time"
+    "completed"
+    "taskCount";
+    justify-items: left;
+  }*/
+
+  #todoHeader {
+    display: flex;
+    flex-direction: column;
+  }
+  #date {
+    order: 1;
+  }
+  #time {
+    order: 2;
+  }
+  .taskBox {
+    order: 3;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas: "completed" "count";
+  }
+  .taskBox > #taskCompleted {
+    grid-area: "completed";
+  }
+  .taskBox > #taskCount {
+    grid-area: "count";
+  }
+
 }

@@ -1,4 +1,5 @@
 var taskCount = 0;
+var totalTaskCount = 0;
 
 //Regrab .list when new task is added
 $(document).ready(function() {
@@ -47,8 +48,7 @@ function checkTime(i) {
 function updateTaskCount() {
   $( '#taskCount' ).fadeIn(500);
   window.save_task_count(taskCount);
-  document.getElementById('taskCount').innerHTML = taskCount;
-
+  document.getElementById('taskCount').innerHTML = (taskCount + " / " + totalTaskCount);
 }
 
 // "enter" key should check for new task form instead of refreshing the page
@@ -188,53 +188,10 @@ $(function() {
 
 })
 
-// function storage_init() {
-//   storage.get(null, function(items) {
-//     var task_keys = Object.keys(items);
-//     console.log('ALL KEYS', task_keys);
-
-//     // Load task list (RHS)
-//     var saved_task_list = items["task_id"];
-
-//     if (saved_task_list != null) {
-//       for (var i = 0; i < saved_task_list.length; i++) {
-//         $( "#todoList-ul" ).append('<div class="list"><li draggable="true">' + saved_task_list[i] + '</li></div>');
-//         updateTaskList();
-//         UpdateTaskListFunctionality();
-//       }
-//     }
-
-//     // Load task count
-//     var saved_task_count = items["task_count"];
-//     if (saved_task_count == null) {
-//       saved_task_count = 0;
-//     }
-//     document.getElementById('taskCount').innerHTML = saved_task_count;
-//     taskCount = saved_task_count;
-
-//     // Load the ones in box
-//     var box_list = ['box-1', 'box-2', 'box-3', 'box-4'];
-//     for (var i = 0; i < box_list.length; i++) {
-//       var cur_box = box_list[i];
-//         console.log('cur_box', cur_box);
-//       var saved_box_task = items[cur_box];
-//         console.log('saved_box', saved_box_task);
-
-//       var cur_container = '#container-' + (i + 1);
-//       console.log('container',cur_container);
-//       if(saved_box_task != null) {
-//         for (var j = 0; j < saved_box_task.length; j++) {
-//           $(cur_container).append('<div class="list"><li draggable="true">' + saved_box_task[j] + '</li></div>');
-//           updateTaskList();
-//           UpdateTaskListFunctionality();
-//         }
-//       }  
-//     }   
-//   })
-// }
-
 function new_storage_init() {
   storage.get({[key]: []}, function(items) {
+
+    totalTaskCount = items[key].length;
 
     // Load task list to their belonging
     for (var i = 0; i < items[key].length; i++) {
@@ -282,7 +239,8 @@ function new_storage_init() {
       storage.set(_count);
     }
     taskCount = _count[count_key];
-    document.getElementById('taskCount').innerHTML = taskCount;
+    totalTaskCount += taskCount;
+    document.getElementById('taskCount').innerHTML = (taskCount + " / " + totalTaskCount);
   })
 
 }

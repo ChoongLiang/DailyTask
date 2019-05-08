@@ -12,75 +12,79 @@
       <link href="https://fonts.googleapis.com/css?family=Lato:100,300,300i" rel="stylesheet" type="text/css">
     </head>
     <body>
-      <!-- Main 
+      <div class="container">
+
+        <!-- Main 
+          =============================-->
+        <div class="main">
+          <!-- Urgent & Important -->
+          <div class="urgent fadeIn" style="--sec: 5s;">
+            <h1>Urgent</h1>
+          </div>
+          <div class="notUrgent fadeIn" style="--sec: 5s;">
+            <h1>Not <br> Urgent</h1>
+          </div>
+          <div class="important fadeIn" style="--sec: 5s;">
+            <h1>Important</h1>
+          </div>
+          <div class="notImportant fadeIn" style="--sec: 5s;">
+            <h1>Not Important</h1>
+          </div>
+
+          <!-- Boxes -->
+          <!-- Box 1 & the task list within, divide up into boxes -->
+          <div id="container-1" name="UrgentImportant"></div>
+          <div id="container-2" name="urgentNotImportant"></div>
+          <div id="container-3" name="notUrgentImportant"></div>
+          <div id="container-4" name="notUrgentNotImportant"></div>
+
+          <!-- Horizontal Line -->
+          <hr class="horizontal expand fadeIn" style="--sec: 3s">
+
+          <!-- Vertical Line -->
+          <hr class="vertical expandVertical fadeIn" style="--sec: 3s">
+
+          <!-- Separate Line -->
+          <hr class="separate separateExpand fadeIn" style="--sec: 3s">
+
+          <h4 id="dlbclk_txt">double click to complete task</h4>
+
+        </div><!-- ./main -->
+
+        <!-- Side bar 
         =============================-->
-      <div class="main">
-        <!-- Urgent & Important -->
-        <div class="urgent fadeIn" style="--sec: 5s;">
-          <h1>Urgent</h1>
-        </div>
-        <div class="notUrgent fadeIn" style="--sec: 5s;">
-          <h1>Not <br> Urgent</h1>
-        </div>
-        <div class="important fadeIn" style="--sec: 5s;">
-          <h1>Important</h1>
-        </div>
-        <div class="notImportant fadeIn" style="--sec: 5s;">
-          <h1>Not Important</h1>
-        </div>
-
-        <!-- Boxes -->
-
-        <!-- Box 1 & the task list within, divide up into boxes -->
-        <div id="container-1" name="UrgentImportant"></div>
-        <div id="container-2" name="urgentNotImportant"></div>
-        <div id="container-3" name="notUrgentImportant"></div>
-        <div id="container-4" name="notUrgentNotImportant"></div>
-
-        <!-- Horizontal Line -->
-        <hr class="horizontal expand fadeIn" style="--sec: 3s">
-
-        <!-- Vertical Line -->
-        <hr class="vertical expandVertical fadeIn" style="--sec: 3s">
-
-        <!-- Separate Line -->
-        <hr class="separate separateExpand fadeIn" style="--sec: 3s">
-
-      </div><!-- ./main -->
-
-      <!-- Side bar 
-      =============================-->
-      <div class="sideBar fadeIn" style="--sec: 3s">
-        <div id="todoHeader">
-          <!-- Date, time & task completed (Order matters) -->
-          <div id="date"></div>
-          <div id="taskCompleted">Completed</div>
-          <div id="time"></div>
-          <div id="taskCount"></div>
-        </div>
-        <div id="titleClearBtn">
-          <div id="to-do-list"><h1>To-do-list</h1></div>
-          <div id="clearBtn"><button id="clearTaskBtn">Clear All</button></div>
-        </div>
-        <div id="todoContainer">
-          <div>
-            <form>
-              <input type="text" id="newTaskForm" placeholder="New Todo" required autocomplete="off">  
-            </form> 
+        <div class="sideBar fadeIn" style="--sec: 3s">
+          <div id="todoHeader">
+            <!-- Date, time & task completed (Order matters) -->
+            <div id="date"></div>
+            <div id="time"></div>
+            <div id="taskCount"></div>
+            <div id="taskCompleted">COMPLETED</div>
           </div>
-          <div>
-            <button type="submit" id="newTaskBtn"></button>
+          <div id="titleClearBtn">
+            <div id="to-do-list"><h1>To-do-list</h1></div>
+            <div id="clearBtn"><button id="clearTaskBtn">Clear All</button></div>
           </div>
-          <div id="todoList">
-            <ul id="todoList-ul">
-            </ul>
+          <div id="todoContainer">
+            <div>
+              <form>
+                <input type="text" id="newTaskForm" placeholder="New Todo" required autocomplete="off">  
+              </form> 
+            </div>
+            <div>
+              <button type="submit" id="newTaskBtn"></button>
+            </div>
+            <div id="todoList">
+              <ul id="todoList-ul">
+              </ul>
+            </div>
+            
+            <!-- Delete area -->
+            <div id="deleteArea">Drop right to delete</div>
           </div>
-          
-          <!-- Delete area -->
-          <div id="deleteArea">Drop right to delete</div>
-        </div>
-      </div>
+        </div><!-- ./Side bar -->
 
+      </div><!-- ./container -->
       <!-- Script 
         =====================================-->
       <script src="/js/jquery.min.js" ></script>
