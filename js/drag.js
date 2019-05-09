@@ -1,13 +1,14 @@
 var taskCount = 0;
 var totalTaskCount = 0;
+const tutorial_text = "Double click to complete task";
 
 //Regrab .list when new task is added
 $(document).ready(function() {
+  tutorial();
   new_storage_init();
   startTime();
   updateTaskList();
   UpdateTaskListFunctionality();
-  //storage_init();
 
   $( '#deleteArea' ).hide(); // Hide 'trash bin' 
   //$( '#clearTaskBtn' ).hide(); // Hide clear all button
@@ -67,10 +68,10 @@ function newTaskBtn(){
   }else{
     // Append as list item
     $( "#todoList-ul" ).append('<div class="list"><li draggable="true">' + task + '</li></div>');
-    // console.log(task)
     updateTaskList();
     UpdateTaskListFunctionality();
     window.saveChanges(task);
+    document.getElementById('newTaskForm').value = "";
   }
 }
 
@@ -90,12 +91,17 @@ function UpdateTaskListFunctionality() {
     $( this ).dblclick( function(task) {
       $( this ).css( "text-decoration", "line-through" ).delay(200);
       $( this ).fadeOut(500, function() {
-        storage.get({[key]: []}, function(items) {
-          var new_task_list = items[key].filter(function(filtered) {
-            return filtered[0] !== task.currentTarget.innerText;
+        if (task.currentTarget.innerText === tutorial_text){
+          storage.set({[first_time]: 1});
+        }
+        else {
+          storage.get({[key]: []}, function(items) {
+            var new_task_list = items[key].filter(function(filtered) {
+              return filtered[0] !== task.currentTarget.innerText;
+            })
+            storage.set({[key]: new_task_list});
           })
-          storage.set({[key]: new_task_list});
-        })
+        }
         $( this ).remove();
         taskCount++;
         updateTaskCount();
@@ -108,7 +114,10 @@ function UpdateTaskListFunctionality() {
 $(function() {
 
   // Disable form submit (auto refresh if enter is pressed)
-  $( "form" ).submit(function() { return false; });
+  $( "form" ).submit(function(event, template) {
+    event.preventDefault();
+    return false; 
+  });
 
   // Then the button have to listen
   $( "#newTaskBtn" ).click(function(){ newTaskBtn(); });
@@ -144,7 +153,6 @@ $(function() {
   })
   $( "#container-2").droppable({
     drop: function( event, ui ) {
-      console.log(ui);
       ui.draggable.detach().appendTo($(this));
       window.save_tasks_in_boxes(2, ui.draggable[0].innerText);
     }
@@ -173,7 +181,6 @@ $(function() {
   $( "#deleteArea" ).droppable({
     drop: function( event, ui ) {
       ui.draggable.remove();
-
       var task_text = ui.draggable[0].innerText;
       storage.get({[key]: []}, function(items) {
         var new_task_list = items[key].filter(function(filtered) {
@@ -181,47 +188,75 @@ $(function() {
         })
         storage.set({[key]: new_task_list});
       })
-
       $( this ).fadeOut(500);
     }
   });
-
 })
 
+function tutorial() {
+  // tutorial on first time
+  storage.get({[first_time]: []}, function(_result) {
+    // console.log(_result[first_time].length === 0);
+    if (_result[first_time].length === 0) {
+      totalTaskCount = 1;
+      $( "#container-1" ).append('<div class="list"><li draggable="true">' + tutorial_text + '</li></div>');
+      updateTaskList();
+      UpdateTaskListFunctionality();
+    } else { return }
+  })
+}
+
 function new_storage_init() {
+  // Load task count
+  storage.get({[count_key]: []}, function(_count) {
+    if (_count[count_key].length === 0) {
+      _count[count_key] = taskCount;
+      storage.set(_count);
+    }
+    taskCount = _count[count_key];
+    //totalTaskCount += taskCount;
+  })
+
   storage.get({[key]: []}, function(items) {
 
-    totalTaskCount = items[key].length;
+    if (items[key].length + taskCount === 0) {
+      totalTaskCount = 1;
+    } else {
+      totalTaskCount = items[key].length + taskCount;
+    }
+    document.getElementById('taskCount').innerHTML = (taskCount + " / " + totalTaskCount);
+
+    // console.log(items[key]);
 
     // Load task list to their belonging
     for (var i = 0; i < items[key].length; i++) {
       switch(items[key][i][1]) {
         case 0:
-          console.log('0');
+          //  console.log('0');
           $( "#todoList-ul" ).append('<div class="list"><li draggable="true">' + items[key][i][0] + '</li></div>');
           updateTaskList();
           UpdateTaskListFunctionality();
           continue;
         case 1:
-          console.log('1');
+          // console.log('1');
           $( "#container-1" ).append('<div class="list"><li draggable="true">' + items[key][i][0] + '</li></div>');
           updateTaskList();
           UpdateTaskListFunctionality();
           continue;
         case 2:
-          console.log('2');
+          // console.log('2');
           $( "#container-2" ).append('<div class="list"><li draggable="true">' + items[key][i][0] + '</li></div>');
           updateTaskList();
           UpdateTaskListFunctionality();
           continue;
         case 3:
-          console.log('3');
+          // console.log('3');
           $( "#container-3" ).append('<div class="list"><li draggable="true">' + items[key][i][0] + '</li></div>');
           updateTaskList();
           UpdateTaskListFunctionality();
           continue;
         case 4:
-          console.log('4');
+          // console.log('4');
           $( "#container-4" ).append('<div class="list"><li draggable="true">' + items[key][i][0] + '</li></div>');
           updateTaskList();
           UpdateTaskListFunctionality();
@@ -231,16 +266,4 @@ function new_storage_init() {
       }
     }
   }) 
-
-  // Load task count
-  storage.get({[count_key]: []}, function(_count) {
-    if (_count[count_key].length === 0) {
-      _count[count_key] = taskCount;
-      storage.set(_count);
-    }
-    taskCount = _count[count_key];
-    totalTaskCount += taskCount;
-    document.getElementById('taskCount').innerHTML = (taskCount + " / " + totalTaskCount);
-  })
-
 }
