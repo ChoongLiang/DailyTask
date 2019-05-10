@@ -3,7 +3,8 @@ const key = 'task_id';
 const count_key = 'task_count';
 const first_time = 'new';
 const top_height = 'top';
-const btm_height = 'bottom'
+const btm_height = 'bottom';
+const notUrgentHeight = 'noturgent';
 const min_height = 365;
 const mar_pad = 62.5;
 const _auto = 'auto';
@@ -42,36 +43,37 @@ function save_tasks_in_boxes(cur_box, task_text) {
 }
 
 function onLoadHeight() {
-  var temp_top_height = min_height + mar_pad;
+  var temp_top_height = min_height;
   // Init container 1-2 height & horizontal line
   storage.get({[top_height] : []}, function(th) {
-    console.log(th[top_height]);
     if (th[top_height] === 0 || th[top_height] < min_height) {
     	$('.horizontal').css({top: min_height + mar_pad});
     	for (var i = 1; i < 3; i++){ $('#container-' + i).height(min_height); }
     } else {
-    	$('.horizontal').css({top: th[top_height]});
-    	for (var i = 1; i < 3; i++){ $('#container-' + i).height(th[top_height] - mar_pad); }
+    	$('.horizontal').css({top: th[top_height] + mar_pad});
+    	for (var i = 1; i < 3; i++){ $('#container-' + i).height(th[top_height]); }
     	temp_top_height = th[top_height];
     }
   })
 
   // Init container 3-4 height
   storage.get({[btm_height] : []}, function(bh) {
-    console.log(bh[btm_height]);
     if (bh[btm_height] === 0 || bh[btm_height] < min_height) {
-    	$('.vertical').height(temp_top_height + min_height);
+    	$('.vertical').height(temp_top_height + min_height + mar_pad);
     	for (var i = 3; i < 5; i++){ $('#container-' + i).height(min_height); }
     } else {
-    	console.log('hi',temp_top_height + bh[btm_height]);
-    	$('.vertical').height(temp_top_height + bh[btm_height]);
-    	for (var i = 3; i < 5; i++) { 
-    		if($('#container-' + i).height() === 0) {
-    			$('#container-' + i).height(bh[btm_height]);
-    			console.log(i);
-    		}
-    		$('#container-' + i).height(bh[btm_height]);
-    	}
+    	$('.vertical').height(temp_top_height + bh[btm_height] + mar_pad);
+    	for (var i = 3; i < 5; i++) { $('#container-' + i).height(bh[btm_height]); }
     }
   })
+
+  // Init not urgent text height
+  storage.get({[notUrgentHeight]: []}, function(h) {
+  	if(h[notUrgentHeight] === 0 || h[notUrgentHeight] < (min_height) * 1.5 + mar_pad){
+  		$('.notUrgent').css({top: (min_height) * 1.5 + mar_pad});
+  	} else {
+  		$('.notUrgent').css({top: h[notUrgentHeight]});
+  	}
+  })
+  return;
 }

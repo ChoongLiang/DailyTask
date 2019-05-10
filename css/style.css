@@ -1,10 +1,11 @@
  /* Global
 -------------------------------------------------- */
-/** {
-  margin: 4px;
-}*/
+* {
+  margin: 2px;
+}
 
 html {
+  margin: 0;
   height: 100vh;
   width: 100vw;
 }
@@ -15,6 +16,7 @@ body {
   font-style: normal;
   font-weight: 300;
   box-sizing: border-box;
+  margin: 0;
 }
 
 button {
@@ -274,37 +276,25 @@ li:hover {
   font-size: 25px;
 }
 
+#container-1, #container-2, #container-3, #container-4 {
+  /* For grid */
+  display: grid;
+  grid-auto-rows: minmax(min-content, max-content);
+  grid-template-columns: repeat(3, 1fr);
+}
+
 /*
  * box-1 : Urgent & Important;
  */
 #container-1 {
   float: left;
   background-color: ;
-  height: auto;
+  height: 365px;
   width: 45%;
-  margin-bottom: 0;
-  margin-right: 0;
-  overflow: ;
-
-  /* For grid */
-  margin-left: 7.3%;
-  margin-top: 2.8em;
-  padding-left: 1%; 
+  margin: 2.8em 0 0 7.3%;
   padding-top: 1.5em;
-  display: grid;
-  grid-gap: .3px;
-  grid-auto-rows: minmax(min-content, max-content);
-  grid-template-columns: repeat(3, 1fr);
+  padding-left: 1%;
 }
-
-/* for each box(div) within container-1 */ 
-/*#container-1> div {
-  border: 0px solid black;
-}
-
-#container-1> div:hover {
-  border: 1px solid black;
-}*/
 
 /*
  * box-2 : Urgent & Not Important;
@@ -312,19 +302,10 @@ li:hover {
 #container-2 {
   float: left;
   background-color: ;
-  height: auto;
+  height: 365px;
   width: 46%;
-  margin-bottom: 0;
-  margin-left: 0;
-  margin-top: 2.8em;
-  padding-top: 1.5em;
-  overflow: auto;
-
-  /* For grid */
-  display: grid;
-  grid-gap: .3px;
-  grid-auto-rows: minmax(min-content, max-content);
-  grid-template-columns: repeat(3, 1fr);
+  margin: 2.8em 0 0 0;
+  padding: 1.5em 0 0 .5%;
 }
 
 /*
@@ -333,17 +314,10 @@ li:hover {
 #container-3 {
   float: left;
   background-color: ;
-  height: auto;
+  height: 365px;
   width: 45%;
-  margin-top: 0;
-  margin-right: 0;
-  margin-left: 7.3%;
+  margin: 0 0 auto 7.3%;
   padding-left: 1%;
-
-  /* For grid */
-  display: grid;
-  grid-gap: .3px;
-  grid-template-columns: repeat(5, 1fr) ;
 }
 
 /*
@@ -352,15 +326,10 @@ li:hover {
 #container-4 {
   float: left;
   background-color: ;
-  height: auto;
+  height: 365px;
   width: 46%;
-  margin-top: 0;
-  margin-left: 0;
-
-  /* For grid */
-  display: grid;
-  grid-gap: .3px;
-  grid-template-columns: repeat(5, 1fr) ;
+  margin: 0 auto auto 0;
+  padding-left: .5%;
 }
 
  /* Hr line properties
@@ -372,7 +341,7 @@ li:hover {
 .horizontal {
   position: absolute;
   top: 21.5rem;
-  left: 7%;
+  left: 6%;
   margin-left:0;
 }
 
@@ -392,7 +361,7 @@ li:hover {
 .separate {
   position: absolute;
   top: 15%;
-  right: 25%;
+  right: 24%;
   margin-bottom:0;
 }
 
@@ -419,7 +388,7 @@ li:hover {
 }
 
 .grow{
-  width: 65%;
+  width: 66%;
 }
 
 /*

@@ -77,21 +77,22 @@ $(document).on('keypress',function(e) {
 });
 
 // Last step, grab form value and verify
-function newTaskBtn(){
-  task = $('#newTaskForm').val().trim();
-
-  if(task === "" || task === "null") {
-    console.log("Empty field!");
-  }else{
-    // Append as list item
-    task = capitalizeFirstLetter(task);
-    $( "#todoList-ul" ).append('<div class="list"><li draggable="true">' + task + '</li></div>');
-    updateTaskList();
-    UpdateTaskListFunctionality();
-    window.saveChanges(task);
-    document.getElementById('newTaskForm').value = "";
-    updateTotalTaskCount(increase);
+function newTaskBtn(task = null){
+  if (task === null) {
+    task = $('#newTaskForm').val().trim();
   }
+  else if(task === "") {
+    console.log("Empty field!");
+  }
+
+  // Append as list item
+  task = capitalizeFirstLetter(task);
+  $( "#todoList-ul" ).append('<div class="list"><li draggable="true">' + task + '</li></div>');
+  updateTaskList();
+  UpdateTaskListFunctionality();
+  window.saveChanges(task);
+  document.getElementById('newTaskForm').value = "";
+  updateTotalTaskCount(increase);
 }
 
 function updateTaskList() {
@@ -110,20 +111,21 @@ function UpdateTaskListFunctionality() {
     $( this ).dblclick( function(task) {
       $( this ).css( "text-decoration", "line-through" ).delay(200);
       $( this ).fadeOut(500, function() {
+        console.log(task.currentTarget.innerText === tutorial_text);
         if (task.currentTarget.innerText === tutorial_text){
           storage.set({[first_time]: 1});
         }
-        else {
-          storage.get({[key]: []}, function(items) {
-            var new_task_list = items[key].filter(function(filtered) {
-              return filtered[0] !== task.currentTarget.innerText;
-            })
-            storage.set({[key]: new_task_list});
+        storage.get({[key]: []}, function(items) {
+          var new_task_list = items[key].filter(function(filtered) {
+            return filtered[0] !== task.currentTarget.innerText;
           })
-        }
+          storage.set({[key]: new_task_list});
+        })
+
         $( this ).remove();
         taskCount++;
         updateTaskCount();
+        getLineHeight();
       });
     });
   });
@@ -136,45 +138,50 @@ function capitalizeFirstLetter(string) {
 function getLineHeight() {
 
   // Horizontal line & Container 1-2 
-  // var h_max = Math.max($('#container-1').height(_auto), 
-  //                      $('#container-2').height(_auto));
   for (var i = 1; i < 5; i++) {
-    $('#conatiner-' + i).height();
+    $('#container-' + i).height(_auto);
   }
 
-  var h_outer_max = Math.max($('#container-1').outerHeight(true), 
-                             $('#container-2').outerHeight(true));
-  console.log(h_outer_max);
+  var h_max = Math.max($('#container-1').height(), 
+                       $('#container-2').height());
   var t_max = min_height;
-  if (h_outer_max < min_height) {
+
+  if (h_max < min_height) {
     $('.horizontal').css({top: min_height + mar_pad});
-    for (var i = 1; i < 3; i++) { $('#container-' + i).height(min_height); }
+
+    for (var i = 1; i < 3; i++) { 
+      $('#container-' + i).height(min_height); 
+    }
   } else {
-    t_max = h_outer_max;
-    $('.horizontal').css({top: h_outer_max});
-    for (var i = 1; i < 3; i++) { $('#container-' + i).height(h_outer_max - mar_pad); }
+    t_max = h_max;
+    $('.horizontal').css({top: h_max + mar_pad});
+    for (var i = 1; i < 3; i++) { 
+      $('#container-' + i).height(h_max); 
+    }
   }
   storage.set({[top_height]: t_max});
 
   // Verticle line & Container 3-4
-  // var v_max = Math.max($('#container-3').height(_auto), 
-  //                      $('#container-4').height(_auto));
-  // console.log(v_max);
-  var v_outer_max = Math.max($('#container-3').outerHeight(true), 
-                             $('#container-4').outerHeight(true));
-  console.log(v_outer_max);
+  var v_max = Math.max($('#container-3').height(), 
+                       $('#container-4').height());
 
-  if (v_outer_max < min_height) {
-    $('.vertical').height((min_height + mar_pad) * 2);
-    for (var i = 3; i < 5; i++) { $('#container-' + i).height(min_height); }
+  if (v_max < min_height) {
+    v_max = min_height;
+    $('.vertical').height(t_max + min_height);
+    for (var i = 3; i < 5; i++) { 
+      $('#container-' + i).height(min_height); 
+    }
   } else {
-    t_max = v_outer_max;
-    $('.vertical').height(t_max + v_outer_max);
-    for (var i = 3; i < 5; i++) { $('#container-' + i).height(v_outer_max - mar_pad); }
+    $('.vertical').height(t_max + v_max + mar_pad);
+    for (var i = 3; i < 5; i++) { 
+      $('#container-' + i).height(v_max); 
+    }
   }
-  //for (var i = 3; i < 5; i++) { $('#container-' + i).height( v_outer_max); }
+  storage.set({[btm_height]: v_max});
 
-  storage.set({[btm_height]: t_max});
+  // Then don't forget to change the placement of Not urgent text
+  $('.notUrgent').css({top: t_max + (v_max)/2 + mar_pad});
+  storage.set({[notUrgentHeight]: t_max + (v_max)/2 + mar_pad});
 }
 
 $(function() {
@@ -262,6 +269,7 @@ $(function() {
       })
       $( this ).fadeOut(500);
       updateTotalTaskCount(decrease);
+      getLineHeight();
     }
   });
 })
@@ -269,11 +277,16 @@ $(function() {
 function tutorial() {
   // tutorial on first time
   storage.get({[first_time]: []}, function(_result) {
-    if (_result[first_time].length === 0) {
-      totalTaskCount = 1;
-      $( "#container-1" ).append('<div class="list"><li draggable="true">' + tutorial_text + '</li></div>');
-      updateTaskList();
-      UpdateTaskListFunctionality();
+    if (_result[first_time] !== 1) {
+      storage.get({[key]: []}, function(items) {
+        if (items[key].length !== 0){ 
+          for (var i = 0; i < items[key].length; i++) {
+            if (items[key][i][0] === tutorial_text) {
+              return
+            }
+          }
+        } else { newTaskBtn(tutorial_text); }
+      })
     } else { return }
   })
 }
@@ -290,11 +303,7 @@ function new_storage_init() {
 
   storage.get({[key]: []}, function(items) {
 
-    if (items[key].length + taskCount === 0) {
-      totalTaskCount = 1;
-    } else {
-      totalTaskCount = items[key].length + taskCount;
-    }
+    totalTaskCount = items[key].length + taskCount;
     document.getElementById('taskCount').innerHTML = (taskCount + " / " + totalTaskCount);
 
     // Load task list to their belonging
