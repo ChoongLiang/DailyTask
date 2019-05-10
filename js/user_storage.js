@@ -2,6 +2,11 @@ const storage = chrome.storage.local;
 const key = 'task_id';
 const count_key = 'task_count';
 const first_time = 'new';
+const top_height = 'top';
+const btm_height = 'bottom'
+const min_height = 365;
+const mar_pad = 62.5;
+const _auto = 'auto';
 
 function saveChanges(task, box = 0) {
 	if (!task) {
@@ -25,10 +30,48 @@ function save_tasks_in_boxes(cur_box, task_text) {
 	storage.get({[key]: []}, function(list_of_lists) {
 		for (var x = 0; x < list_of_lists[key].length; x++) {
 			if (list_of_lists[key][x][0] === task_text) {
-				list_of_lists[key][x][1] = cur_box;
-				storage.set(list_of_lists);
+				var new_task_list = list_of_lists[key].filter(function(filtered) {
+            		return filtered[0] !== task_text;
+        		})
+        		new_task_list.push([task_text, cur_box]);
+				storage.set({[key]: new_task_list});
 				break;
 			}
 		}
 	})
+}
+
+function onLoadHeight() {
+  var temp_top_height = min_height + mar_pad;
+  // Init container 1-2 height & horizontal line
+  storage.get({[top_height] : []}, function(th) {
+    console.log(th[top_height]);
+    if (th[top_height] === 0 || th[top_height] < min_height) {
+    	$('.horizontal').css({top: min_height + mar_pad});
+    	for (var i = 1; i < 3; i++){ $('#container-' + i).height(min_height); }
+    } else {
+    	$('.horizontal').css({top: th[top_height]});
+    	for (var i = 1; i < 3; i++){ $('#container-' + i).height(th[top_height] - mar_pad); }
+    	temp_top_height = th[top_height];
+    }
+  })
+
+  // Init container 3-4 height
+  storage.get({[btm_height] : []}, function(bh) {
+    console.log(bh[btm_height]);
+    if (bh[btm_height] === 0 || bh[btm_height] < min_height) {
+    	$('.vertical').height(temp_top_height + min_height);
+    	for (var i = 3; i < 5; i++){ $('#container-' + i).height(min_height); }
+    } else {
+    	console.log('hi',temp_top_height + bh[btm_height]);
+    	$('.vertical').height(temp_top_height + bh[btm_height]);
+    	for (var i = 3; i < 5; i++) { 
+    		if($('#container-' + i).height() === 0) {
+    			$('#container-' + i).height(bh[btm_height]);
+    			console.log(i);
+    		}
+    		$('#container-' + i).height(bh[btm_height]);
+    	}
+    }
+  })
 }

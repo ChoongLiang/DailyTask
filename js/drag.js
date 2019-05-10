@@ -1,6 +1,8 @@
 var taskCount = 0;
 var totalTaskCount = 0;
 const tutorial_text = "Double click to complete task";
+const increase = -1;
+const decrease = -10;
 
 //Regrab .list when new task is added
 $(document).ready(function() {
@@ -9,6 +11,7 @@ $(document).ready(function() {
   startTime();
   updateTaskList();
   UpdateTaskListFunctionality();
+  window.onLoadHeight();
 
   $( '#deleteArea' ).hide(); // Hide 'trash bin' 
   //$( '#clearTaskBtn' ).hide(); // Hide clear all button
@@ -52,6 +55,20 @@ function updateTaskCount() {
   document.getElementById('taskCount').innerHTML = (taskCount + " / " + totalTaskCount);
 }
 
+// Increase = 10 / Decrease = 11 / Re-Calculate = 12
+function updateTotalTaskCount(command) {
+  $( '#taskCount' ).fadeIn(500);
+  if (command === increase){
+    totalTaskCount++;
+  } else if (command === decrease) {
+    totalTaskCount--;
+  } else{
+    totalTaskCount -= command;
+  }
+  document.getElementById('taskCount').innerHTML = (taskCount + " / " + totalTaskCount);
+  return;
+}
+
 // "enter" key should check for new task form instead of refreshing the page
 $(document).on('keypress',function(e) {
     if(e.which == 13) {
@@ -61,17 +78,19 @@ $(document).on('keypress',function(e) {
 
 // Last step, grab form value and verify
 function newTaskBtn(){
-  task = $('#newTaskForm').val();
+  task = $('#newTaskForm').val().trim();
 
   if(task === "" || task === "null") {
     console.log("Empty field!");
   }else{
     // Append as list item
+    task = capitalizeFirstLetter(task);
     $( "#todoList-ul" ).append('<div class="list"><li draggable="true">' + task + '</li></div>');
     updateTaskList();
     UpdateTaskListFunctionality();
     window.saveChanges(task);
     document.getElementById('newTaskForm').value = "";
+    updateTotalTaskCount(increase);
   }
 }
 
@@ -110,6 +129,53 @@ function UpdateTaskListFunctionality() {
   });
 }
 
+function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+function getLineHeight() {
+
+  // Horizontal line & Container 1-2 
+  // var h_max = Math.max($('#container-1').height(_auto), 
+  //                      $('#container-2').height(_auto));
+  for (var i = 1; i < 5; i++) {
+    $('#conatiner-' + i).height();
+  }
+
+  var h_outer_max = Math.max($('#container-1').outerHeight(true), 
+                             $('#container-2').outerHeight(true));
+  console.log(h_outer_max);
+  var t_max = min_height;
+  if (h_outer_max < min_height) {
+    $('.horizontal').css({top: min_height + mar_pad});
+    for (var i = 1; i < 3; i++) { $('#container-' + i).height(min_height); }
+  } else {
+    t_max = h_outer_max;
+    $('.horizontal').css({top: h_outer_max});
+    for (var i = 1; i < 3; i++) { $('#container-' + i).height(h_outer_max - mar_pad); }
+  }
+  storage.set({[top_height]: t_max});
+
+  // Verticle line & Container 3-4
+  // var v_max = Math.max($('#container-3').height(_auto), 
+  //                      $('#container-4').height(_auto));
+  // console.log(v_max);
+  var v_outer_max = Math.max($('#container-3').outerHeight(true), 
+                             $('#container-4').outerHeight(true));
+  console.log(v_outer_max);
+
+  if (v_outer_max < min_height) {
+    $('.vertical').height((min_height + mar_pad) * 2);
+    for (var i = 3; i < 5; i++) { $('#container-' + i).height(min_height); }
+  } else {
+    t_max = v_outer_max;
+    $('.vertical').height(t_max + v_outer_max);
+    for (var i = 3; i < 5; i++) { $('#container-' + i).height(v_outer_max - mar_pad); }
+  }
+  //for (var i = 3; i < 5; i++) { $('#container-' + i).height( v_outer_max); }
+
+  storage.set({[btm_height]: t_max});
+}
 
 $(function() {
 
@@ -134,6 +200,7 @@ $(function() {
             return filtered[1] !== 0;
         })
         storage.set({[key]: new_task_list});
+        updateTotalTaskCount(items[key].length - new_task_list.length);
       })
       })
     });
@@ -149,24 +216,28 @@ $(function() {
     drop: function( event, ui ) {
       ui.draggable.detach().appendTo($(this));
       window.save_tasks_in_boxes(1, ui.draggable[0].innerText);
+      getLineHeight();
     }
   })
   $( "#container-2").droppable({
     drop: function( event, ui ) {
       ui.draggable.detach().appendTo($(this));
       window.save_tasks_in_boxes(2, ui.draggable[0].innerText);
+      getLineHeight();
     }
   })
   $( "#container-3").droppable({
     drop: function( event, ui ) {
       ui.draggable.detach().appendTo($(this));
       window.save_tasks_in_boxes(3, ui.draggable[0].innerText);
+      getLineHeight();
     }
   })
   $( "#container-4").droppable({
     drop: function( event, ui ) {
       ui.draggable.detach().appendTo($(this));
       window.save_tasks_in_boxes(4, ui.draggable[0].innerText);
+      getLineHeight();
     }
   })
 
@@ -174,6 +245,7 @@ $(function() {
     drop: function( event, ui ) {
       $( ui.draggable ).detach().appendTo($( "#todoList-ul" ));
       window.save_tasks_in_boxes(0, ui.draggable[0].innerText);
+      getLineHeight();
     }
   }).sortable();
 
@@ -189,6 +261,7 @@ $(function() {
         storage.set({[key]: new_task_list});
       })
       $( this ).fadeOut(500);
+      updateTotalTaskCount(decrease);
     }
   });
 })
@@ -196,7 +269,6 @@ $(function() {
 function tutorial() {
   // tutorial on first time
   storage.get({[first_time]: []}, function(_result) {
-    // console.log(_result[first_time].length === 0);
     if (_result[first_time].length === 0) {
       totalTaskCount = 1;
       $( "#container-1" ).append('<div class="list"><li draggable="true">' + tutorial_text + '</li></div>');
@@ -214,7 +286,6 @@ function new_storage_init() {
       storage.set(_count);
     }
     taskCount = _count[count_key];
-    //totalTaskCount += taskCount;
   })
 
   storage.get({[key]: []}, function(items) {
@@ -226,37 +297,36 @@ function new_storage_init() {
     }
     document.getElementById('taskCount').innerHTML = (taskCount + " / " + totalTaskCount);
 
-    // console.log(items[key]);
-
     // Load task list to their belonging
     for (var i = 0; i < items[key].length; i++) {
+      // console.log(items[key][i]);
       switch(items[key][i][1]) {
         case 0:
-          //  console.log('0');
+          console.log('0');
           $( "#todoList-ul" ).append('<div class="list"><li draggable="true">' + items[key][i][0] + '</li></div>');
           updateTaskList();
           UpdateTaskListFunctionality();
           continue;
         case 1:
-          // console.log('1');
+          console.log('1');
           $( "#container-1" ).append('<div class="list"><li draggable="true">' + items[key][i][0] + '</li></div>');
           updateTaskList();
           UpdateTaskListFunctionality();
           continue;
         case 2:
-          // console.log('2');
+          console.log('2');
           $( "#container-2" ).append('<div class="list"><li draggable="true">' + items[key][i][0] + '</li></div>');
           updateTaskList();
           UpdateTaskListFunctionality();
           continue;
         case 3:
-          // console.log('3');
+          console.log('3');
           $( "#container-3" ).append('<div class="list"><li draggable="true">' + items[key][i][0] + '</li></div>');
           updateTaskList();
           UpdateTaskListFunctionality();
           continue;
         case 4:
-          // console.log('4');
+          console.log('4');
           $( "#container-4" ).append('<div class="list"><li draggable="true">' + items[key][i][0] + '</li></div>');
           updateTaskList();
           UpdateTaskListFunctionality();
