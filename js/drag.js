@@ -14,7 +14,6 @@ $(document).ready(function() {
   window.onLoadHeight();
 
   $( '#deleteArea' ).hide(); // Hide 'trash bin' 
-  //$( '#clearTaskBtn' ).hide(); // Hide clear all button
 });
 
 // Date & time
@@ -311,31 +310,31 @@ function new_storage_init() {
       // console.log(items[key][i]);
       switch(items[key][i][1]) {
         case 0:
-          console.log('0');
+          // console.log('0');
           $( "#todoList-ul" ).append('<div class="list"><li draggable="true">' + items[key][i][0] + '</li></div>');
           updateTaskList();
           UpdateTaskListFunctionality();
           continue;
         case 1:
-          console.log('1');
+          // console.log('1');
           $( "#container-1" ).append('<div class="list"><li draggable="true">' + items[key][i][0] + '</li></div>');
           updateTaskList();
           UpdateTaskListFunctionality();
           continue;
         case 2:
-          console.log('2');
+          // console.log('2');
           $( "#container-2" ).append('<div class="list"><li draggable="true">' + items[key][i][0] + '</li></div>');
           updateTaskList();
           UpdateTaskListFunctionality();
           continue;
         case 3:
-          console.log('3');
+          // console.log('3');
           $( "#container-3" ).append('<div class="list"><li draggable="true">' + items[key][i][0] + '</li></div>');
           updateTaskList();
           UpdateTaskListFunctionality();
           continue;
         case 4:
-          console.log('4');
+          // console.log('4');
           $( "#container-4" ).append('<div class="list"><li draggable="true">' + items[key][i][0] + '</li></div>');
           updateTaskList();
           UpdateTaskListFunctionality();

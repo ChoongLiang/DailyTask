@@ -215,7 +215,7 @@ li:hover {
   font-size: 25px;
 }
 
- /* Urgent and important text & double click
+ /* Urgent and important text
 -------------------------------------------------- */
 
 /*
@@ -452,6 +452,11 @@ li:hover {
 
 @media (max-width: 1400px) {
 
+  /* Main Section */
+  .urgent, .notUrgent {
+    font-size: 13px;
+  }
+
   /* Section 1 */
   #todoHeader {
     display: flex;
@@ -491,6 +496,14 @@ li:hover {
 }
 
 @media (max-width: 1200px) {
+  /* Main Section */
+  #container-1 li, #container-2 li, #container-3 li, #container-4 li {
+    font-size: 20px;
+  }
+  .urgent, .notUrgent {
+    font-size: 12px;
+  }
+
   /* Section 2 */
   #titleClearBtn {
     flex-direction: row;
@@ -504,10 +517,20 @@ li:hover {
   }
 }
 
+@media (max-width: 1000px) {
+  /* Main Section */
+  .urgent, .notUrgent {
+    font-size: 11px;
+  }
+}
+
 @media (max-width: 950px) {
   /* Main Section */
   #container-1, #container-2, #container-3, #container-4 {
     grid-template-columns: repeat(2, 1fr);
+  }
+  .urgent, .notUrgent {
+    font-size: 1vw;
   }
   .notImportant {
     left: 42vw;

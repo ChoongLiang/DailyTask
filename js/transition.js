@@ -1,5 +1,5 @@
 // Horizontal line animation
-jQuery(document).ready(function($){
+$(document).ready(function(){
     setTimeout(function(){
         $('.expand').addClass('grow');
         // console.log("expand working")
@@ -7,7 +7,7 @@ jQuery(document).ready(function($){
 });
 
 // Vertical line animation
-jQuery(document).ready(function($){
+$(document).ready(function(){
     setTimeout(function(){
         $('.expandVertical').addClass('growVertical');
         // console.log("expand vertical working")
@@ -15,7 +15,7 @@ jQuery(document).ready(function($){
 });
 
 // Separation line animation
-jQuery(document).ready(function($){
+$(document).ready(function(){
 	var count = 0;
     setInterval(function(){
         $('.separateExpand').addClass('separateGrow');
