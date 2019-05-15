@@ -70,9 +70,9 @@ function onLoadHeight() {
   // Init not urgent text height
   storage.get({[notUrgentHeight]: []}, function(h) {
   	if(h[notUrgentHeight] === 0 || h[notUrgentHeight] < (min_height) * 1.5 + mar_pad){
-  		$('.notUrgent').css({top: (min_height) * 1.5 + mar_pad});
+  		$('.notUrgent').css({top: (min_height) * 1.5 + mar_pad, left: 0});
   	} else {
-  		$('.notUrgent').css({top: h[notUrgentHeight]});
+  		$('.notUrgent').css({top: h[notUrgentHeight], left: 0});
   	}
   })
   return;

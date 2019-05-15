@@ -11,8 +11,8 @@ html {
 }
 
 body { 
-  font-family: "Lato", sans-serif;
-  font-size: 15px;
+  font-family: "Roboto", sans-serif;
+  font-size: 11px;
   font-style: normal;
   font-weight: 300;
   box-sizing: border-box;
@@ -86,7 +86,6 @@ li:hover {
 
 .sideBar ul {
   list-style-type: none;
-  overflow: auto;
   grid-area: "taskList";
 }
 
@@ -129,10 +128,11 @@ li:hover {
 }
 
 #taskCompleted {
-  font-size: 25px;
+  font-size: 15px;
   grid-area: "completed";
   font-weight: 300;
   text-align: right;
+  padding-top: 7px;
 }
 
 #taskCount {
@@ -215,8 +215,20 @@ li:hover {
   font-size: 25px;
 }
 
+#todoList {
+  overflow-wrap: break-word;
+  overflow-x: hidden;
+}
+
  /* Urgent and important text
 -------------------------------------------------- */
+
+/*
+ * ALL
+ */
+.urgent, .notUrgent, .important, .notImportant {
+  color: #424242;
+}
 
 /*
  * Urgent
@@ -225,6 +237,7 @@ li:hover {
   position: absolute;
   top: 20%;
   left: 0;
+  -webkit-transform:rotate(-90deg);
 }
 
 /*
@@ -234,6 +247,7 @@ li:hover {
   position: absolute;
   bottom: 20%;
   left: 0;
+  -webkit-transform:rotate(-90deg);
  }
 
 /*
@@ -251,7 +265,7 @@ li:hover {
 .notImportant {
   position: absolute;
   top: 0;
-  left: 48vw;
+  left: 49vw;
   text-align: center;
 }
 
@@ -275,7 +289,8 @@ li:hover {
   /* For grid */
   display: grid;
   grid-auto-rows: minmax(min-content, max-content);
-  grid-template-columns: repeat(3, 1fr);
+  overflow-x: auto;
+  overflow-wrap: break-word;
 }
 
 /*
@@ -348,6 +363,7 @@ li:hover {
   top: 5%;
   left: 40%;
   margin-top:0;
+  box-shadow: 1px 1px .3em grey;
 }
 
 /*
@@ -368,9 +384,6 @@ li:hover {
  */
 .fadeIn {
   -webkit-animation: fadein var(--sec); /* Safari, Chrome and Opera > 12.1 */
-     -moz-animation: fadein var(--sec); /* Firefox < 16 */
-      -ms-animation: fadein var(--sec); /* Internet Explorer */
-       -o-animation: fadein var(--sec); /* Opera < 12.1 */
           animation: fadein var(--sec);
 }
 
@@ -429,7 +442,6 @@ li:hover {
 
 /* Prevent the text contents of draggable elements from being selectable. */
 [draggable] {
-  -moz-user-select: none;
   -khtml-user-select: none;
   -webkit-user-select: none;
   user-select: none;
@@ -445,6 +457,12 @@ li:hover {
   font-family: "Lato", sans-serif;
   font-weight: 300;
   font-style: italic;
+}
+
+ /* Scroll bar - for chrome
+-------------------------------------------------- */
+::-webkit-scrollbar { 
+    display: none; 
 }
 
  /* @media

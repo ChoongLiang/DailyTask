@@ -3,6 +3,7 @@ var totalTaskCount = 0;
 const tutorial_text = "Double click to complete task";
 const increase = -1;
 const decrease = -10;
+const max_str_len = 45;
 
 //Regrab .list when new task is added
 $(document).ready(function() {
@@ -62,10 +63,13 @@ function updateTotalTaskCount(command) {
   } else if (command === decrease) {
     totalTaskCount--;
   } else{
-    totalTaskCount -= command;
+    if (command < totalTaskCount) {
+      totalTaskCount -= command;  
+    } else {
+      totalTaskCount = 0;
+    }
   }
   document.getElementById('taskCount').innerHTML = (taskCount + " / " + totalTaskCount);
-  return;
 }
 
 // "enter" key should check for new task form instead of refreshing the page
@@ -80,8 +84,9 @@ function newTaskBtn(task = null){
   if (task === null) {
     task = $('#newTaskForm').val().trim();
   }
-  else if(task === "") {
+  if(task === "" || task.length > max_str_len) {
     console.log("Empty field!");
+    return
   }
 
   // Append as list item
