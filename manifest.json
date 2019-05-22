@@ -1,6 +1,6 @@
 {
     "name": "Daily Task",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "description": "Time management quadrants",
     "permissions": ["activeTab", "storage"],
     "icons": {
@@ -15,7 +15,8 @@
                   "js/drag.js", "js/user_storage.js", "js/transition.js"]
     },
     "browser_action": {
-      "default_icon": "images/DailyTask_logo_32.png"
+      "default_icon": "images/DailyTask_logo_32.png",
+      "default_popup": "settings.html" 
     },
     "manifest_version": 2
  }

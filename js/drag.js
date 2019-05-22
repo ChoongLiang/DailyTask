@@ -1,6 +1,6 @@
 var taskCount = 0;
 var totalTaskCount = 0;
-const tutorial_text = "Double click to complete task";
+const tutorial_text = "Double click (me) to complete task";
 const increase = -1;
 const decrease = -10;
 const max_str_len = 45;
@@ -184,8 +184,8 @@ function getLineHeight() {
   storage.set({[btm_height]: v_max});
 
   // Then don't forget to change the placement of Not urgent text
-  $('.notUrgent').css({top: t_max + (v_max)/2 + mar_pad});
-  storage.set({[notUrgentHeight]: t_max + (v_max)/2 + mar_pad});
+  $('.notImportant').css({top: t_max + (v_max)/2 + mar_pad});
+  storage.set({[notImportantHeight]: t_max + (v_max)/2 + mar_pad});
 }
 
 $(function() {

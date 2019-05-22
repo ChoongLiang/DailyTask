@@ -6,7 +6,7 @@
 	});
 
 	chrome.browserAction.onClicked.addListener(function (tab) {
-		chrome.tabs.create({url: "dailytask.html"});
+		chrome.tabs.create({url: "settings.html"});
 	});
 
 })();

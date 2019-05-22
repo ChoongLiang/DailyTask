@@ -9,32 +9,32 @@
       <link rel="stylesheet" type="text/css" href="./css/style.css">
 
       <!-- Custom Font -->
-      <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,300i" rel="stylesheet" type="text/css">
+      <link href="https://fonts.googleapis.com/css?family=Neuton|Work+Sans" rel="stylesheet">
     </head>
     <body>
       <!-- Main 
         =============================-->
       <div class="main">
         <!-- Urgent & Important -->
-        <div class="urgent fadeIn" style="--sec: 5s;">
-          <h1>URGENT</h1>
-        </div>
-        <div class="notUrgent fadeIn" style="--sec: 5s;">
-          <h1>NOT URGENT</h1>
-        </div>
         <div class="important fadeIn" style="--sec: 5s;">
           <h1>IMPORTANT</h1>
         </div>
         <div class="notImportant fadeIn" style="--sec: 5s;">
           <h1>NOT IMPORTANT</h1>
         </div>
+        <div class="urgent fadeIn" style="--sec: 5s;">
+          <h1>URGENT</h1>
+        </div>
+        <div class="notUrgent fadeIn" style="--sec: 5s;">
+          <h1>NOT URGENT</h1>
+        </div>
 
         <!-- Boxes -->
         <!-- Box 1 & the task list within, divide up into boxes -->
-        <div id="container-1" name="UrgentImportant"></div>
-        <div id="container-2" name="urgentNotImportant"></div>
-        <div id="container-3" name="notUrgentImportant"></div>
-        <div id="container-4" name="notUrgentNotImportant"></div>
+        <div id="container-1" name="UrgentImportant" class="fadeIn grow" style="--sec: 1s;"></div>
+        <div id="container-2" name="notUrgentImportant" class="fadeIn" style="--sec: 2s;"></div>
+        <div id="container-3" name="urgentNotImportant" class="fadeIn" style="--sec: 3s;"></div>
+        <div id="container-4" name="notUrgentNotImportant" class="fadeIn" style="--sec: 4s;"></div>
 
         <!-- Horizontal Line -->
         <hr class="horizontal expand fadeIn" style="--sec: 3s">

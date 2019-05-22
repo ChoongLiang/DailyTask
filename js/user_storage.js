@@ -4,9 +4,9 @@ const count_key = 'task_count';
 const first_time = 'new';
 const top_height = 'top';
 const btm_height = 'bottom';
-const notUrgentHeight = 'noturgent';
-const min_height = 365;
-const mar_pad = 62.5;
+const notImportantHeight = 'notimportant';
+const min_height = 420;
+const mar_pad = 44;
 const _auto = 'auto';
 
 function saveChanges(task, box = 0) {
@@ -68,11 +68,11 @@ function onLoadHeight() {
   })
 
   // Init not urgent text height
-  storage.get({[notUrgentHeight]: []}, function(h) {
-  	if(h[notUrgentHeight] === 0 || h[notUrgentHeight] < (min_height) * 1.5 + mar_pad){
-  		$('.notUrgent').css({top: (min_height) * 1.5 + mar_pad, left: 0});
+  storage.get({[notImportantHeight]: []}, function(h) {
+  	if(h[notImportantHeight] === 0 || h[notImportantHeight] < (min_height) * 1.5 + mar_pad){
+  		$('.notImportant').css({top: (min_height) * 1.5 + mar_pad});
   	} else {
-  		$('.notUrgent').css({top: h[notUrgentHeight], left: 0});
+  		$('.notImportant').css({top: h[notImportantHeight]});
   	}
   })
   return;

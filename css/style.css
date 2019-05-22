@@ -1,7 +1,8 @@
  /* Global
 -------------------------------------------------- */
 * {
-  margin: 2px;
+  margin: 0;
+  color: white;
 }
 
 html {
@@ -11,18 +12,16 @@ html {
 }
 
 body { 
-  font-family: "Roboto", sans-serif;
-  font-size: 11px;
-  font-style: normal;
-  font-weight: 300;
   box-sizing: border-box;
   margin: 0;
+  background-image: url(https://images.unsplash.com/photo-1556139930-c23fa4a4f934?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1680&q=80);
 }
 
 button {
   border: 1px solid black;
   padding: .5em;
   font-size: 25px;
+  background-color: rgba(0, 0, 0, 0);
 }
 
 button:hover {
@@ -34,9 +33,10 @@ input[type=text] {
   font-size: 17px;
   box-sizing: border-box;
   border: none;
-  border-bottom: 1px solid black;
+  border-bottom: 1px solid white;
   -webkit-transition: width .4s ease-in-out;
   transition: width .4s ease-in-out;
+  background-color: rgba(0, 0, 0, 0);
 }
 
 input[type=text]:focus {
@@ -115,7 +115,7 @@ li:hover {
 
 #date {
   grid-area: "date";
-  font-size: 22px;
+  font-size: 20px;
   font-weight: 300;
 }
 
@@ -194,7 +194,7 @@ li:hover {
 #todoContainer {
   display: grid;
   grid-template-columns: 2fr 1fr;
-  grid-template-rows: 1fr 12fr;
+  grid-auto-rows: minmax(min-content, max-content);
   grid-template-areas: 
   "taskForm taskBtn"
   "taskList delete";
@@ -227,36 +227,19 @@ li:hover {
  * ALL
  */
 .urgent, .notUrgent, .important, .notImportant {
-  color: #424242;
+  color: ;
+  font-size: 17px;
+  font-family: 'Neuton', Serif;
 }
-
-/*
- * Urgent
- */
-.urgent {
-  position: absolute;
-  top: 20%;
-  left: 0;
-  -webkit-transform:rotate(-90deg);
-}
-
-/*
- * Not Urgent
- */
-.notUrgent {
-  position: absolute;
-  bottom: 20%;
-  left: 0;
-  -webkit-transform:rotate(-90deg);
- }
 
 /*
  * Important
  */
 .important {
   position: absolute;
-  top: 0;
-  left: 20%;
+  top: 25%;
+  left: -40px;
+  -webkit-transform:rotate(-90deg);
 }
 
 /*
@@ -264,8 +247,27 @@ li:hover {
  */
 .notImportant {
   position: absolute;
+  bottom: 20%;
+  left: -60px;
+  -webkit-transform:rotate(-90deg);
+ }
+
+/*
+ * Urgent
+ */
+.urgent {
+  position: absolute;
   top: 0;
-  left: 49vw;
+  left: 18%;
+}
+
+/*
+ * Not Urgent
+ */
+.notUrgent {
+  position: absolute;
+  top: 0;
+  left: 51vw;
   text-align: center;
 }
 
@@ -283,6 +285,7 @@ li:hover {
 #container-1 li, #container-2 li, #container-3 li, #container-4 li {
   list-style-type: none;
   font-size: 25px;
+  font-family: 'Work Sans', Sans-Serif;
 }
 
 #container-1, #container-2, #container-3, #container-4 {
@@ -291,6 +294,27 @@ li:hover {
   grid-auto-rows: minmax(min-content, max-content);
   overflow-x: auto;
   overflow-wrap: break-word;
+  border-radius: 25px;
+}
+
+/* Green */
+#container-1:hover {
+  /*background-color: #22bc6c;*/
+}
+
+/* Blue */
+#container-2:hover {
+  /*background-color: #4c91ff;*/
+}
+
+/* Orange */
+#container-3:hover {
+  /*background-color: #ffbd2d;*/
+}
+
+/* Red */
+#container-4:hover {
+  /*background-color: #f94f44;*/
 }
 
 /*
@@ -298,35 +322,34 @@ li:hover {
  */
 #container-1 {
   float: left;
-  background-color: ;
-  height: 365px;
+  /*background-color: #0F9D58;*/
+  height: 420px;
   width: 45%;
-  margin: 2.8em 0 0 7.3%;
-  padding-top: 1.5em;
+  margin: 3em 0 0 7.3%;
   padding-left: 1%;
 }
 
 /*
- * box-2 : Urgent & Not Important;
+ * box-2 : Not Urgent & Important;
  */
 #container-2 {
   float: left;
-  background-color: ;
-  height: 365px;
+  /*background-color: #4285F4;*/
+  height: 420px;
   width: 46%;
-  margin: 2.8em 0 0 0;
-  padding: 1.5em 0 0 .5%;
+  margin: 3em 0 0 0;
+  padding: 0 0 0 .5%;
 }
 
 /*
- * box-3 : Not Urgent & Important;
+ * box-3 : Urgent & Not Important
  */
 #container-3 {
   float: left;
-  background-color: ;
-  height: 365px;
+  /*background-color: #F4B400;*/
+  height: 420px;
   width: 45%;
-  margin: 0 0 auto 7.3%;
+  margin: 0 0 0 7.3%;
   padding-left: 1%;
 }
 
@@ -335,10 +358,10 @@ li:hover {
  */
 #container-4 {
   float: left;
-  background-color: ;
-  height: 365px;
+  /*background-color: #DB4437;*/
+  height: 420px;
   width: 46%;
-  margin: 0 auto auto 0;
+  margin: 0 0 0 0;
   padding-left: .5%;
 }
 
@@ -363,7 +386,6 @@ li:hover {
   top: 5%;
   left: 40%;
   margin-top:0;
-  box-shadow: 1px 1px .3em grey;
 }
 
 /*
@@ -468,10 +490,10 @@ li:hover {
  /* @media
 -------------------------------------------------- */
 
-@media (max-width: 1400px) {
+@media (max-width: 1420px) {
 
   /* Main Section */
-  .urgent, .notUrgent {
+  .important, .notImportant {
     font-size: 13px;
   }
 
@@ -518,8 +540,11 @@ li:hover {
   #container-1 li, #container-2 li, #container-3 li, #container-4 li {
     font-size: 20px;
   }
-  .urgent, .notUrgent {
+  .important, .notImportant {
     font-size: 12px;
+  }
+  .notImportant {
+    left: -78px;
   }
 
   /* Section 2 */
@@ -537,8 +562,11 @@ li:hover {
 
 @media (max-width: 1000px) {
   /* Main Section */
-  .urgent, .notUrgent {
+  .important, .notImportant {
     font-size: 11px;
+  }
+  .notImportant {
+    left: -75px;
   }
 }
 
@@ -547,10 +575,16 @@ li:hover {
   #container-1, #container-2, #container-3, #container-4 {
     grid-template-columns: repeat(2, 1fr);
   }
-  .urgent, .notUrgent {
+  .important, .notImportant {
     font-size: 1vw;
   }
+  .important {
+    left: -25px;
+  }
   .notImportant {
+    left: -50px;
+  }
+  .notUrgent {
     left: 42vw;
   }
 
@@ -583,10 +617,10 @@ li:hover {
   #container-1, #container-2, #container-3, #container-4 {
     grid-template-columns: 1fr;
   }
-  .important, .notImportant {
+  .urgent, .notUrgent {
     font-size: 1.6vw;
   }
-  .notImportant {
+  .notUrgent {
     left: 44vw;
   }
 }
