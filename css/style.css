@@ -1,24 +1,12 @@
- /* Global
+/* Global
 -------------------------------------------------- */
-* {
-  margin: 0;
-  color: white;
-}
-
-html {
-  margin: 0;
-  height: 100vh;
-  width: 100vw;
-}
-
 body { 
   box-sizing: border-box;
-  margin: 0;
-  background-image: url(https://images.unsplash.com/photo-1556139930-c23fa4a4f934?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1680&q=80);
+  font-family: 'Nunito', sans-serif;
 }
 
 button {
-  border: 1px solid black;
+  border: 1px solid #f8f9fa;
   padding: .5em;
   font-size: 25px;
   background-color: rgba(0, 0, 0, 0);
@@ -29,11 +17,12 @@ button:hover {
 }
 
 input[type=text] {
+  color: #f8f9fa;
   width: 130px;
   font-size: 17px;
   box-sizing: border-box;
   border: none;
-  border-bottom: 1px solid white;
+  border-bottom: 1px solid #f8f9fa;
   -webkit-transition: width .4s ease-in-out;
   transition: width .4s ease-in-out;
   background-color: rgba(0, 0, 0, 0);
@@ -66,32 +55,22 @@ li:hover {
  * Main
  */
 .main {
-  float:left;
-  width: 75%;
-  height: 825px;
   box-sizing: border-box;
-  background: ;
 }
 
 /*
  * Side bar
  */
 .sideBar {
-  float: right;
-  align-content: right;
-  width: 24%;
-  height: 745px;
-  background-color: ;
+  min-height: 745px;
 }
 
 .sideBar ul {
   list-style-type: none;
-  grid-area: "taskList";
 }
 
 .sideBar li {
   list-style-type: none;
-  grid-area: "taskList";
   font-size: 25px;
 }
 
@@ -104,43 +83,7 @@ li:hover {
  * +-------------------+
  * | ..................|
  */
-#todoHeader {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-auto-rows: minmax(min-content,max-content);
-  grid-template-areas:
-  "date taskCount"
-  "time completed";
-}
 
-#date {
-  grid-area: "date";
-  font-size: 20px;
-  font-weight: 300;
-}
-
-#time {
-  grid-area: "time";
-  font-size: 24px;
-  margin-bottom: 0;
-  text-align: left;
-  font-weight: 300;
-}
-
-#taskCompleted {
-  font-size: 15px;
-  grid-area: "completed";
-  font-weight: 300;
-  text-align: right;
-  padding-top: 7px;
-}
-
-#taskCount {
-  font-size: 25px;
-  grid-area: "taskCount";
-  text-align: right;
-  font-weight: 300;
-}
 
 /*
  * Side bar section 2 (center)
@@ -151,22 +94,6 @@ li:hover {
  * +-------------------+
  * | ..................|
  */
-#titleClearBtn {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-template-areas: 
-  "title clearBtn"
-}
-
-#to-do-list h1{
-  grid-area: "title";
-  margin-top: 0;
-}
-
-#clearBtn {
-  grid-area: "clearBtn";
-  padding-top: 2px;
-}
 
 #clearBtn button {
   border: 0;
@@ -191,33 +118,15 @@ li:hover {
  * | ..................| <- THIS (everything else)
  */
 
-#todoContainer {
-  display: grid;
-  grid-template-columns: 2fr 1fr;
-  grid-auto-rows: minmax(min-content, max-content);
-  grid-template-areas: 
-  "taskForm taskBtn"
-  "taskList delete";
-}
-
-#todoForm {
-  grid-area: "taskForm";
-}
-
-#newTaskBtn {
-  grid-area: "taskBtn";
-}
-
 #deleteArea {
-  grid-area: "delete";
-  text-align: center;
-  padding-top: 5em;
   font-size: 25px;
+  border: 1px dashed #fff;
+  min-height: 500px;
 }
 
 #todoList {
   overflow-wrap: break-word;
-  overflow-x: hidden;
+  min-height: 500px;
 }
 
  /* Urgent and important text
@@ -226,52 +135,35 @@ li:hover {
 /*
  * ALL
  */
-.urgent, .notUrgent, .important, .notImportant {
-  color: ;
-  font-size: 17px;
-  font-family: 'Neuton', Serif;
-}
 
 /*
  * Important
  */
 .important {
   position: absolute;
-  top: 25%;
-  left: -40px;
-  -webkit-transform:rotate(-90deg);
+  top: 50%;
+  left: 50%;
+  transform:  translateX(-50%) translateY(-50%) rotate(-90deg);
 }
 
 /*
  * Not Important
  */
 .notImportant {
-  position: absolute;
-  bottom: 20%;
-  left: -60px;
+
   -webkit-transform:rotate(-90deg);
  }
 
 /*
  * Urgent
  */
-.urgent {
-  position: absolute;
-  top: 0;
-  left: 18%;
-}
 
 /*
  * Not Urgent
  */
-.notUrgent {
-  position: absolute;
-  top: 0;
-  left: 51vw;
-  text-align: center;
-}
 
- /* Boxes
+
+ /* Containers
 -------------------------------------------------- */
 
 /* 
@@ -284,85 +176,15 @@ li:hover {
 
 #container-1 li, #container-2 li, #container-3 li, #container-4 li {
   list-style-type: none;
-  font-size: 25px;
-  font-family: 'Work Sans', Sans-Serif;
+  font-size: 22px;
+  font-family: 'Nunito', sans-serif;
 }
 
 #container-1, #container-2, #container-3, #container-4 {
   /* For grid */
   display: grid;
   grid-auto-rows: minmax(min-content, max-content);
-  overflow-x: auto;
-  overflow-wrap: break-word;
-  border-radius: 25px;
-}
-
-/* Green */
-#container-1:hover {
-  /*background-color: #22bc6c;*/
-}
-
-/* Blue */
-#container-2:hover {
-  /*background-color: #4c91ff;*/
-}
-
-/* Orange */
-#container-3:hover {
-  /*background-color: #ffbd2d;*/
-}
-
-/* Red */
-#container-4:hover {
-  /*background-color: #f94f44;*/
-}
-
-/*
- * box-1 : Urgent & Important;
- */
-#container-1 {
-  float: left;
-  /*background-color: #0F9D58;*/
-  height: 420px;
-  width: 45%;
-  margin: 3em 0 0 7.3%;
-  padding-left: 1%;
-}
-
-/*
- * box-2 : Not Urgent & Important;
- */
-#container-2 {
-  float: left;
-  /*background-color: #4285F4;*/
-  height: 420px;
-  width: 46%;
-  margin: 3em 0 0 0;
-  padding: 0 0 0 .5%;
-}
-
-/*
- * box-3 : Urgent & Not Important
- */
-#container-3 {
-  float: left;
-  /*background-color: #F4B400;*/
-  height: 420px;
-  width: 45%;
-  margin: 0 0 0 7.3%;
-  padding-left: 1%;
-}
-
-/*
- * box-4 : Not Urgent & Not Important;
- */
-#container-4 {
-  float: left;
-  /*background-color: #DB4437;*/
-  height: 420px;
-  width: 46%;
-  margin: 0 0 0 0;
-  padding-left: .5%;
+  border-radius: 5px;
 }
 
  /* Hr line properties
@@ -476,168 +298,14 @@ li:hover {
 -------------------------------------------------- */
 
 #newTaskForm::-webkit-input-placeholder {
-  font-family: "Lato", sans-serif;
-  font-weight: 300;
-  font-style: italic;
-}
+  font-family: 'Nunito', sans-serif;
 
  /* Scroll bar - for chrome
 -------------------------------------------------- */
 ::-webkit-scrollbar { 
     display: none; 
+    background: transparent;
 }
 
  /* @media
 -------------------------------------------------- */
-
-@media (max-width: 1420px) {
-
-  /* Main Section */
-  .important, .notImportant {
-    font-size: 13px;
-  }
-
-  /* Section 1 */
-  #todoHeader {
-    display: flex;
-    flex-direction: column;
-  }
-  #date {
-    order: 1;
-  }
-  #time {
-    order: 2;
-  }
-  #taskCompleted {
-    order: 3;
-    text-align: left;
-  }
-  #taskCount {
-    order: 4;
-    text-align: left;
-  }
-
-  /* Section 2 */
-  #titleClearBtn {
-    display: flex;
-  }
-  #to-do-list h1{
-    order: 1;
-    margin-top: 0;
-    font-size: 2vw;
-  }
-  #clearBtn {
-    order: 2;
-  }
-  #clearBtn > button {
-    padding-top: 7px;
-    font-size: 1.3vw;
-  }
-}
-
-@media (max-width: 1200px) {
-  /* Main Section */
-  #container-1 li, #container-2 li, #container-3 li, #container-4 li {
-    font-size: 20px;
-  }
-  .important, .notImportant {
-    font-size: 12px;
-  }
-  .notImportant {
-    left: -78px;
-  }
-
-  /* Section 2 */
-  #titleClearBtn {
-    flex-direction: row;
-  }
-  #to-do-list h1{
-    font-size: 25px;
-  }
-  #clearBtn > button {
-    padding-top: 5px;
-    font-size: 15px;
-  }
-}
-
-@media (max-width: 1000px) {
-  /* Main Section */
-  .important, .notImportant {
-    font-size: 11px;
-  }
-  .notImportant {
-    left: -75px;
-  }
-}
-
-@media (max-width: 950px) {
-  /* Main Section */
-  #container-1, #container-2, #container-3, #container-4 {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  .important, .notImportant {
-    font-size: 1vw;
-  }
-  .important {
-    left: -25px;
-  }
-  .notImportant {
-    left: -50px;
-  }
-  .notUrgent {
-    left: 42vw;
-  }
-
-  /* Section 2 */
-  #to-do-list h1{
-    font-size: 2.5vw;
-  }
-  #clearBtn > button {
-    padding-top: 3px;
-    font-size: 1.7vw;
-  }
-}
-
-@media (max-width: 850px) {
-  /* Section 1 */
-  #date, #time, #taskCompleted {
-    font-size: 2.5vw;
-  }
-}
-
-@media (max-width: 800px) {
-  .sideBar {
-    float: left;
-    width: 22%;
-  }
-}
-
-@media (max-width: 750px) {
-  /* Main Section */
-  #container-1, #container-2, #container-3, #container-4 {
-    grid-template-columns: 1fr;
-  }
-  .urgent, .notUrgent {
-    font-size: 1.6vw;
-  }
-  .notUrgent {
-    left: 44vw;
-  }
-}
-
-@media (max-width: 650px) {
-  /* Section 2 */
-  #titleClearBtn {
-    flex-direction: column;
-  }
-  #to-do-list h1{
-    font-size: 3.5vw;
-  }
-  #clearBtn {
-    padding-top: 1px;
-    margin: 0;
-  }
-  #clearBtn > button {
-    font-size: 2.5vw;
-  }
-}

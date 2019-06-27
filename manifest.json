@@ -12,7 +12,8 @@
     "chrome_url_overrides" : { "newtab": "dailytask.html" },
     "background": {
       "scripts": ["js/jquery.min.js", "js/jquery-ui.js", "js/background.js",
-                  "js/drag.js", "js/user_storage.js", "js/transition.js"]
+                  "js/drag.js", "js/user_storage.js", "js/transition.js", "js/settings.js",
+                  "js/bootstrap.min.js"]
     },
     "browser_action": {
       "default_icon": "images/DailyTask_logo_32.png",

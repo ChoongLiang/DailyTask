@@ -5,7 +5,7 @@ const first_time = 'new';
 const top_height = 'top';
 const btm_height = 'bottom';
 const notImportantHeight = 'notimportant';
-const min_height = 420;
+const min_height = 390;
 const mar_pad = 44;
 const _auto = 'auto';
 
@@ -72,8 +72,13 @@ function onLoadHeight() {
   	if(h[notImportantHeight] === 0 || h[notImportantHeight] < (min_height) * 1.5 + mar_pad){
   		$('.notImportant').css({top: (min_height) * 1.5 + mar_pad});
   	} else {
-  		$('.notImportant').css({top: h[notImportantHeight]});
+  		$('.notImportant').css({top: h[notImportantHeight], left: -100});
   	}
   })
   return;
+}
+
+function setBackground(url) {
+  document.body.style.background = 'url(' + url + ')';
+  console.log('background_set');
 }

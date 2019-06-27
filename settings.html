@@ -4,24 +4,126 @@
 	<title>Settings</title>
 
 	<style type="text/css">
-		button {
-			height: 30px;
-			width: 30px;
-			outline: none;
+		/*
+		 * Container, texts 
+		 */
+		body {
+			margin: 0;
 		}
-		ul {
-			font-size: 15px;
-			color: orange;
-			list-style: none;
+		.container {
+			padding: 10px;
+			height: 100px;
+			width: 150px;
+			background-color: rgba(0, 0, 0, .7);
+			color: #ffffff;
+		}
+		h4 {
+			margin: 0;
+		}
+		.name {
+			float: left;
+			padding-top: 10px;
+		}
+
+		/*
+		 * Switch button 
+		 */
+
+		/* The switch - the box around the slider */
+		.switch {
+		  position: relative;
+		  display: inline-block;
+		  width: 40px;
+		  height: 20px;
+		  float: right;
+		  margin-top: 9px;
+		}
+
+		/* Hide default HTML checkbox */
+		.switch input {
+		  opacity: 0;
+		  width: 0;
+		  height: 0;
+		}
+
+		/* The slider */
+		.slider {
+		  position: absolute;
+		  cursor: pointer;
+		  top: 0;
+		  left: 0;
+		  right: 0;
+		  bottom: 0;
+		  background-color: #ccc;
+		  -webkit-transition: .4s;
+		  transition: .4s;
+		}
+
+		.slider:before {
+		  position: absolute;
+		  content: "";
+		  height: 16px;
+		  width: 20px;
+		  left: 4px;
+		  bottom: 4px;
+		  top: 2px;
+		  background-color: white;
+		  -webkit-transition: .4s;
+		  transition: .4s;
+		}
+
+		input:checked + .slider {
+		  background-color: limegreen;
+		}
+
+		input:focus + .slider {
+		  box-shadow: 0 0 1px limegreen;
+		}
+
+		input:checked + .slider:before {
+		  -webkit-transform: translateX(12px);
+		  transform: translateX(12px);
+		}
+
+		/* Rounded sliders */
+		.slider.round {
+		  border-radius: 34px;
+		}
+
+		.slider.round:before {
+		  border-radius: 45%;
 		}
 	</style>
 
 </head>
 <body>
-	<!-- Settings -->
-	<ul>
-		<div><li>Background Image <button>on</button></li></div>
-		<div><li>Four Quarant Colors <button>on</button></li></div>
-	</ul>
+	<div class="container">
+		<h4>Settings</h4><hr>
+		<!-- Settings -->
+		<div class="setting">
+			<label class="name"> Background</label>
+			<label class="switch">
+			  <input type="checkbox" id="background_checkbox">
+			  <span class="slider round"></span> 
+			</label>
+		</div>
+
+		<div class="setting">
+			<label class='name'> 4-Quadrants</label>
+			<label class="switch">
+			  <input type="checkbox">
+			  <span class="slider round"></span> 
+			</label>
+		</div>
+	</div>
+
+	<!-- Script 
+        =====================================-->
+     <!-- <script src="./js/user_storage.js" ></script> -->
+     <script src="./js/jquery.min.js" ></script>
+     <script src="./js/settings.js" ></script>
+
+     <!-- For storage -->
+     <script src="/js/user_storage.js"></script> 
 </body>
 </html>

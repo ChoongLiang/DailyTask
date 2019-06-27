@@ -1,9 +1,9 @@
-var taskCount = 0;
-var totalTaskCount = 0;
-const tutorial_text = "Double click (me) to complete task";
-const increase = -1;
-const decrease = -10;
-const max_str_len = 45;
+var taskCount = 0,
+    totalTaskCount = 0;
+const tutorial_text = "Double click to complete task",
+      increase = -1,
+      decrease = -10,
+      max_str_len = 45;
 
 //Regrab .list when new task is added
 $(document).ready(function() {
@@ -85,6 +85,7 @@ function newTaskBtn(task = null){
     task = $('#newTaskForm').val().trim();
   }
   if(task === "" || task.length > max_str_len) {
+    alert('Empty field or task name too long!');
     console.log("Empty field!");
     return
   }
@@ -102,8 +103,9 @@ function newTaskBtn(task = null){
 function updateTaskList() {
   $('.list').draggable({
     helper:"clone",
-    containment:"document"
-  })
+    containment:"document",
+    stack: ".list"
+  });
 }
 
 function UpdateTaskListFunctionality() {

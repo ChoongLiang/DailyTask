@@ -5,86 +5,142 @@
 
       <title>New Tab</title>
 
+      <!-- Bootstrap CSS -->
+      <link rel="stylesheet" type="text/css" href="./css/bootstrap.min.css">
+      <link rel="stylesheet" type="text/css" href="./css/bootstrap-grid.min.css">
+
       <!-- Custom CSS -->
       <link rel="stylesheet" type="text/css" href="./css/style.css">
 
       <!-- Custom Font -->
-      <link href="https://fonts.googleapis.com/css?family=Neuton|Work+Sans" rel="stylesheet">
+      <link href="https://fonts.googleapis.com/css?family=Nunito&display=swap" rel="stylesheet">
     </head>
-    <body>
+    <body class="bg-dark text-light">
       <!-- Main 
         =============================-->
-      <div class="main">
-        <!-- Urgent & Important -->
-        <div class="important fadeIn" style="--sec: 5s;">
-          <h1>IMPORTANT</h1>
-        </div>
-        <div class="notImportant fadeIn" style="--sec: 5s;">
-          <h1>NOT IMPORTANT</h1>
-        </div>
-        <div class="urgent fadeIn" style="--sec: 5s;">
-          <h1>URGENT</h1>
-        </div>
-        <div class="notUrgent fadeIn" style="--sec: 5s;">
-          <h1>NOT URGENT</h1>
-        </div>
+      <div class="main row mw-100 mh-100">
+        <div class="col-xl-9 p-0">
+          <!-- Row 1 -->
+          <!-- Urgent & Important -->
+          <div class="row text-center">
+            <div class="col-1"></div>
+            <div class="col-11">
+              <div class="row pr-4">
+                <div class="col-6 urgent fadeIn" style="--sec: 5s;">
+                  <h2 class="mb-0 mt-1 font-weight-light">URGENT</h2>
+                </div>
+                <div class="col-6 notUrgent fadeIn text-nowrap" style="--sec: 5s;">
+                  <h2 class="font-weight-light mt-1 mb-0">NOT URGENT</h2> 
+                </div>
+              </div>
+            </div>
+          </div><!--./row -->  
 
-        <!-- Boxes -->
-        <!-- Box 1 & the task list within, divide up into boxes -->
-        <div id="container-1" name="UrgentImportant" class="fadeIn grow" style="--sec: 1s;"></div>
-        <div id="container-2" name="notUrgentImportant" class="fadeIn" style="--sec: 2s;"></div>
-        <div id="container-3" name="urgentNotImportant" class="fadeIn" style="--sec: 3s;"></div>
-        <div id="container-4" name="notUrgentNotImportant" class="fadeIn" style="--sec: 4s;"></div>
+          <!-- Row 2 -->
+          <div class="row">
+            <div class="col-1 pr-0">
+              <div class="important fadeIn" style="--sec: 5s;">
+                <h2 class="font-weight-light mb-0 mt-5">IMPORTANT</h2>
+              </div>
+            </div>
+            <div class="col-11">
+              <div class="row pr-4">
+                <div class="col fadeIn bg-success" id="container-1" name="UrgentImportant" style="--sec: 1s;"></div>
+                <div class="col fadeIn bg-primary" id="container-2" name="notUrgentImportant" style="--sec: 2s;"></div>
+              </div>  
+            </div>  
+          </div><!--./row -->  
 
-        <!-- Horizontal Line -->
-        <hr class="horizontal expand fadeIn" style="--sec: 3s">
+          <!-- Row 3 -->
+          <div class="row">
+            <div class="col-1 pr-0">
+              <div class="important fadeIn text-nowrap" style="--sec: 5s;">
+                <h2 class="font-weight-light mb-0 mt-5">NOT IMPORTANT</h2>
+              </div>
+            </div>
+            <div class="col-11">
+              <div class="row pr-4">
+                <div class="col fadeIn bg-warning" id="container-3" name="UrgentImportant" style="--sec: 1s;"></div>
+                <div class="col fadeIn bg-danger" id="container-4" name="notUrgentImportant" style="--sec: 2s;"></div>
+              </div>  
+            </div>  
+          </div><!--./row --> 
 
-        <!-- Vertical Line -->
-        <hr class="vertical expandVertical fadeIn" style="--sec: 3s">
+          <!-- Horizontal Line -->
+          <!-- <hr class="horizontal expand fadeIn" style="--sec: 3s"> -->
 
-        <!-- Separate Line -->
-        <hr class="separate separateExpand fadeIn" style="--sec: 3s">
+          <!-- Vertical Line -->
+          <!-- <hr class="vertical expandVertical fadeIn" style="--sec: 3s"> -->
 
+          <!-- Separate Line -->
+          <!-- <hr class="separate separateExpand fadeIn" style="--sec: 3s"> -->
+        </div><!-- ./col-md-9 -->
+
+
+        <!-- Side bar 
+        =============================-->
+        <div class="offset-xl-0 offset-1 col-5 col-xl-3 sideBar fadeIn px-lg-0 py-lg-2 py-4"  style="--sec: 3s">
+
+          <!-- Row 1: Date, time & task completed (Order matters) -->
+          <div class="row">
+            <div class="col">
+              <div id="date"></div>
+            </div>
+            <div class="col text-right">
+              <div id="taskCompleted">COMPLETED</div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <div id="time"></div>
+            </div>
+            <div class="col text-right">
+              <div id="taskCount"></div>
+            </div>
+          </div>
+
+          <!-- Row 2: To-do-list title and clear all button -->
+          <div class="row">
+            <div class="col-7">
+              <div id="to-do-list"><h3>To-do-list</h3></div>
+            </div>
+            <div class="col-5">
+              <div id="clearBtn"><button id="clearTaskBtn">CLEAR</button></div>
+            </div>
+          </div>
+
+          <!-- Row 3: New task input form & submit button -->
+          <div class="row">
+            <div class="col-8">
+              <div>
+                <form>
+                  <input type="text" id="newTaskForm" placeholder="New Todo" autocomplete="off">  
+                </form> 
+              </div>
+            </div>
+            <div class="col-4">
+              <div>
+                <button type="submit" id="newTaskBtn"></button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Row 4: List of tasks and delete area -->
+          <div class="row">
+            <div class="col-8" id="todoList">
+              <ul id="todoList-ul"></ul>
+            </div>
+            <div class="col-4 mt-5 text-center">
+              <div id="deleteArea">Trash <br>Can</div>
+            </div>
+          </div><!-- ./col-md-3 -->
       </div><!-- ./main -->
-
-      <!-- Side bar 
-      =============================-->
-      <div class="sideBar fadeIn" style="--sec: 3s">
-        <div id="todoHeader">
-          <!-- Date, time & task completed (Order matters) -->
-          <div id="date"></div>
-          <div id="taskCompleted">COMPLETED</div>
-          <div id="time"></div>
-          <div id="taskCount"></div>
-          
-        </div>
-        <div id="titleClearBtn">
-          <div id="to-do-list"><h1>To-do-list</h1></div>
-          <div id="clearBtn"><button id="clearTaskBtn">CLEAR</button></div>
-        </div>
-        <div id="todoContainer">
-          <div>
-            <form>
-              <input type="text" id="newTaskForm" placeholder="New Todo" autocomplete="off">  
-            </form> 
-          </div>
-          <div>
-            <button type="submit" id="newTaskBtn"></button>
-          </div>
-          <div id="todoList">
-            <ul id="todoList-ul">
-            </ul>
-          </div>
-          
-          <!-- Delete area -->
-          <div id="deleteArea">Drop right to delete</div>
-        </div>
-      </div><!-- ./Side bar -->
 
       <!-- Script 
         =====================================-->
       <script src="/js/jquery.min.js" ></script>
       <script src="/js/jquery-ui.js" ></script>
+      <script src="/js/bootstrap.min.js"></script>
 
       <!-- For line animation -->
       <script src="/js/transition.js"></script>
